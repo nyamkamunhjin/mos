@@ -2,331 +2,186 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-    TelescopeIcon as Binoculars,
-    Calendar,
-    Heart,
-    Users,
-} from 'lucide-react';
+import { Icons } from '@/components/ui/icons';
 
 export default function Home() {
     return (
         <div className="flex min-h-screen flex-col">
-            {/* Navigation */}
-            <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container flex h-16 items-center justify-between">
-                    <Link href="/" className="flex items-center space-x-2">
-                        <Image
-                            src={`/logo.png`}
-                            alt="Mongolian Bird Society"
-                            width={40}
-                            height={40}
-                            className="h-10 w-10"
-                        />
-                        <span className="hidden font-bold sm:inline-block">
-                            Mongolian Ornithological Society
-                        </span>
-                    </Link>
-                    <nav className="flex items-center space-x-6">
-                        <Link
-                            href="/about"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            About
-                        </Link>
-                        <Link
-                            href="/birds"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            Birds
-                        </Link>
-                        <Link
-                            href="/expeditions"
-                            className="text-sm font-medium transition-colors hover:text-primary"
-                        >
-                            Expeditions
-                        </Link>
-                        <Button>Donate Now</Button>
-                    </nav>
-                </div>
-            </header>
-
             <main className="flex-1">
-                {/* Hero Section */}
-                <section className="relative">
-                    <div className="absolute inset-0 z-10 bg-black/0" />
-                    <div className="relative h-[70vh] w-full">
+                {/* Hero Carousel Section */}
+                <section className="relative bg-white">
+                    <div className="relative h-[250px] sm:h-[350px] md:h-[400px] w-full">
                         <Image
-                            src="/birds/kozlov_ancestor.jpg"
-                            alt="Kozlov's Ancestor"
+                            src="/placeholder.svg"
+                            alt="Cranes in Mongolia"
                             fill
                             className="object-cover"
                             priority
                         />
-                    </div>
-                    <div className="absolute inset-0 z-20 flex items-center justify-center">
-                        <div className="container text-center text-white">
-                            <h1 className="mb-6 text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                                Discover Mongolia's Birds
-                            </h1>
-                            <p className="mx-auto mb-8 max-w-[600px] text-lg text-gray-200">
-                                Join us in our mission to protect and preserve
-                                Mongolia's unique bird species
-                            </p>
-                            <div className="flex justify-center gap-4">
-                                <Button size="lg" variant="default">
-                                    Support Our Cause
-                                </Button>
-                                <Button
-                                    size="lg"
-                                    variant="outline"
-                                    className="bg-white/10"
-                                >
-                                    Learn More
-                                </Button>
+                        <div className="absolute bottom-4 right-4 bg-red-600 text-white px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-bold">
+                            DONATE NOW
+                        </div>
+                        <div className="absolute bottom-4 left-0 right-0 text-center">
+                            <div className="flex justify-center space-x-1">
+                                {[1, 2, 3, 4, 5].map(dot => (
+                                    <div 
+                                        key={dot} 
+                                        className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full ${dot === 1 ? 'bg-white' : 'bg-white/50'}`}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Features Section */}
-                <section className="container py-24">
-                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                        <Card>
-                            <CardContent className="flex flex-col items-center p-6 text-center">
-                                <Binoculars className="mb-4 h-12 w-12 text-primary" />
-                                <h3 className="mb-2 font-semibold">
-                                    Bird Watching Tours
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Experience guided tours with expert
-                                    ornithologists
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent className="flex flex-col items-center p-6 text-center">
-                                <Calendar className="mb-4 h-12 w-12 text-primary" />
-                                <h3 className="mb-2 font-semibold">
-                                    Upcoming Events
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Join our educational workshops and field
-                                    trips
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent className="flex flex-col items-center p-6 text-center">
-                                <Heart className="mb-4 h-12 w-12 text-primary" />
-                                <h3 className="mb-2 font-semibold">
-                                    Conservation
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Support our bird conservation initiatives
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent className="flex flex-col items-center p-6 text-center">
-                                <Users className="mb-4 h-12 w-12 text-primary" />
-                                <h3 className="mb-2 font-semibold">
-                                    Membership
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Become a member and support our mission
-                                </p>
-                            </CardContent>
-                        </Card>
+                {/* Footer Links */}
+                <section className="border-t border-gray-200 py-4">
+                    <div className="container mx-auto flex flex-wrap justify-center items-center gap-4 sm:gap-8 px-4">
+                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
+                            <Image src="/placeholder.svg" alt="Member" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
+                            <span className="whitespace-nowrap">Become a member</span>
+                        </Link>
+                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
+                            <Image src="/placeholder.svg" alt="Gift" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
+                            <span className="whitespace-nowrap">Get eNews</span>
+                        </Link>
+                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
+                            <Image src="/placeholder.svg" alt="Contact" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
+                            <span className="whitespace-nowrap">Contact Us</span>
+                        </Link>
+                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
+                            <Image src="/placeholder.svg" alt="Calendar" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
+                            <span className="whitespace-nowrap">Events Us</span>
+                        </Link>
                     </div>
                 </section>
 
-                {/* Latest News Section */}
-                <section className="border-t bg-muted/50">
-                    <div className="container py-24">
-                        <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-4xl">
-                            Latest News
-                        </h2>
-                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {/* YouTube and Online Guide Section */}
+                <section className="py-6 sm:py-8 px-4">
+                    <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        <div className="border border-gray-200 p-3 sm:p-4">
+                            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Subscribe us on YOUTUBE:</h2>
+                            <div className="relative h-[120px] sm:h-[150px] w-full bg-gray-200">
+                                <Image 
+                                    src="/placeholder.svg" 
+                                    alt="YouTube Channel" 
+                                    fill 
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="bg-red-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
+                                        <div className="w-0 h-0 border-t-6 sm:border-t-8 border-t-transparent border-l-10 sm:border-l-12 border-l-white border-b-6 sm:border-b-8 border-b-transparent ml-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="border border-gray-200 p-3 sm:p-4">
+                            <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">ONLINE GUIDE</h2>
+                            <h3 className="text-base sm:text-lg mb-3 sm:mb-4">Birds Mongolia</h3>
+                            <div className="flex mb-3 sm:mb-4">
+                                <input type="text" className="border border-gray-300 px-2 py-1 w-full" />
+                                <Button size="sm" variant="default" className="bg-gray-200 text-black border border-gray-300 ml-1">
+                                    <Icons.search className="w-4 h-4" />
+                                </Button>
+                            </div>
+                            <div className="relative h-[120px] sm:h-[150px] w-full">
+                                <Image 
+                                    src="/placeholder.svg" 
+                                    alt="Bird Guide" 
+                                    fill 
+                                    className="object-cover"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Recent News Section */}
+                <section className="py-6 sm:py-8 bg-white px-4">
+                    <div className="container mx-auto">
+                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Recent news</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[1, 2, 3].map((i) => (
-                                <Card key={i}>
+                                <div key={i} className="border border-gray-200">
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_SITE_URL}/placeholder.svg`}
-                                        alt="News"
+                                        src="/placeholder.svg"
+                                        alt="World Migratory Bird Day"
                                         width={400}
-                                        height={300}
-                                        className="aspect-video w-full object-cover"
+                                        height={200}
+                                        className="w-full h-40 object-cover"
                                     />
-                                    <CardContent className="p-6">
-                                        <h3 className="mb-2 font-semibold">
-                                            World Migratory Bird Day 2023
-                                        </h3>
-                                        <p className="mb-4 text-sm text-muted-foreground">
-                                            Join us in celebrating the annual
-                                            migration of birds across continents
+                                    <div className="p-4">
+                                        <h3 className="text-sm font-bold mb-2">World Migratory Bird Day 2019</h3>
+                                        <p className="text-xs mb-4">
+                                            Migratory birds are passengers without a visa across many countries. These birds should not be by cooperative initiative between countries.
                                         </p>
-                                        <Button variant="link" className="p-0">
-                                            Read more
-                                        </Button>
-                                    </CardContent>
-                                </Card>
+                                        <Link href="#" className="text-xs text-blue-700">
+                                            Read more ≫≫
+                                        </Link>
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* CTA Section */}
-                <section className="border-t">
-                    <div className="container py-24 text-center">
-                        <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl">
-                            Support Our Mission
-                        </h2>
-                        <p className="mx-auto mb-8 max-w-[600px] text-muted-foreground">
-                            Your contribution helps us protect Mongolia's unique
-                            bird species and their habitats
-                        </p>
-                        <Button size="lg">Donate Now</Button>
+                {/* Discover Wild Birds Section */}
+                <section className="py-6 sm:py-8 px-4">
+                    <div className="container mx-auto">
+                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Discover wild birds in Mongolia</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 bg-gray-700">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="p-4 text-white">
+                                    <h3 className="text-md font-bold uppercase mb-2">Bird watching tours in Chingiss Khaan birth place</h3>
+                                    <p className="text-xs mb-4">
+                                        This will be a very general bird watching and birding tour. Eastern Mongolia has its lakes and rivers, big river valleys, nameless lakes and rivers, Kherlen, Balj, Khurkh, and Ikh nuur and many more.
+                                    </p>
+                                    <Link href="#" className="text-xs text-white">
+                                        Read more ≫≫
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="mt-6 sm:mt-8 h-[150px] sm:h-[200px] relative">
+                            <Image 
+                                src="/placeholder.svg" 
+                                alt="Mongolian Bird" 
+                                fill 
+                                className="object-cover"
+                            />
+                        </div>
+                    </div>
+                </section>
+
+                {/* How You Can Support Us Section */}
+                <section className="py-6 sm:py-8 bg-white px-4">
+                    <div className="container mx-auto">
+                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">How you can support us</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {['Shop now', 'Participate Events', 'Book Trips', 'Donate Us'].map((action, i) => (
+                                <div key={i} className="border border-gray-200">
+                                    <Image
+                                        src="/placeholder.svg"
+                                        alt={action}
+                                        width={300}
+                                        height={150}
+                                        className="w-full h-32 object-cover"
+                                    />
+                                    <div className="p-3">
+                                        <h3 className="text-sm font-bold mb-2">{action}</h3>
+                                        <p className="text-xs mb-4">
+                                            Migratory birds are passengers without a visa across many countries.
+                                        </p>
+                                        <Link href="#" className="text-xs text-blue-700">
+                                            Read more ≫≫
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </section>
             </main>
-
-            {/* Footer */}
-            <footer className="border-t bg-muted/50">
-                <div className="container py-12">
-                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                        <div>
-                            <h3 className="mb-4 text-sm font-semibold">
-                                About
-                            </h3>
-                            <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Our Mission
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Team
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Contact
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="mb-4 text-sm font-semibold">
-                                Resources
-                            </h3>
-                            <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Bird Guide
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Publications
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Research
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="mb-4 text-sm font-semibold">
-                                Get Involved
-                            </h3>
-                            <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Membership
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Volunteer
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Donate
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="mb-4 text-sm font-semibold">
-                                Connect
-                            </h3>
-                            <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Facebook
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        Twitter
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="hover:text-primary"
-                                    >
-                                        YouTube
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-                        <p>
-                            © 2024 Mongolian Bird Society. All rights reserved.
-                        </p>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 }

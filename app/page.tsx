@@ -11,8 +11,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useEffect, useState } from 'react';
 import { type CarouselApi } from "@/components/ui/carousel";
@@ -82,8 +80,6 @@ export default function Home() {
                                 DONATE NOW
                             </Button>
                         </div>
-                        <CarouselPrevious className="left-1 sm:left-4 h-6 w-6 sm:h-8 sm:w-8" />
-                        <CarouselNext className="right-1 sm:right-4 h-6 w-6 sm:h-8 sm:w-8" />
                     </Carousel>
                 </section>
 

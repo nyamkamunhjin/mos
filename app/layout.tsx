@@ -18,6 +18,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
     title: 'Mongolian Ornithological Society',
     description: "Mongolian Ornithological Society's website",
+    icons: {
+        icon: '/logo.png',
+    },
 };
 
 export default function RootLayout({

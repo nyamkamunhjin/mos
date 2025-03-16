@@ -13,7 +13,7 @@ export default function MessagePage() {
           <div className="w-full md:w-1/3 relative">
             <div className="aspect-[3/4] relative overflow-hidden rounded-lg shadow-lg">
               <Image 
-                src="/Gombobaatar.jpg" 
+                src="/Gombobaatar.JPG" 
                 alt="Dr. Gombobaatar Sundev, Director of the Mongolian Ornithological Society"
                 fill
                 className="hover:scale-[1.2] transition-transform duration-300 object-cover scale-115"

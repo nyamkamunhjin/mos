@@ -1,148 +1,212 @@
+"use client";
+
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Icons } from '@/components/ui/icons';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useEffect, useState } from 'react';
+import { type CarouselApi } from "@/components/ui/carousel";
 
 export default function Home() {
+    const [api, setApi] = useState<CarouselApi>();
+
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        const interval = setInterval(() => {
+            api.scrollNext();
+        }, 5000); // Autoplay interval in milliseconds
+
+        return () => clearInterval(interval);
+    }, [api]);
+
     return (
         <div className="flex min-h-screen flex-col">
             <main className="flex-1">
                 {/* Hero Carousel Section */}
-                <section className="relative bg-white">
-                    <div className="relative h-[250px] sm:h-[350px] md:h-[400px] w-full">
-                        <Image
-                            src="/placeholder.svg"
-                            alt="Cranes in Mongolia"
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                        <div className="absolute bottom-4 right-4 bg-red-600 text-white px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-bold">
-                            DONATE NOW
-                        </div>
-                        <div className="absolute bottom-4 left-0 right-0 text-center">
-                            <div className="flex justify-center space-x-1">
-                                {[1, 2, 3, 4, 5].map(dot => (
-                                    <div 
-                                        key={dot} 
-                                        className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full ${dot === 1 ? 'bg-white' : 'bg-white/50'}`}
-                                    />
-                                ))}
+                <section className="relative bg-background">
+                    <Carousel 
+                        className="w-full" 
+                        setApi={setApi}
+                        opts={{
+                            loop: true, // Enable looping
+                            align: "start",
+                        }}
+                    >
+                        <div className="absolute top-20 sm:top-20 left-3 sm:left-10 z-10 max-w-[70%] sm:max-w-[500px] text-white bg-black/10 rounded-lg">
+                            <div className="p-2 sm:p-4">
+                                <h2 className="text-xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-3">Protecting Mongolia's Birds</h2>
+                                <p className="text-xs sm:text-lg md:text-xl line-clamp-2 sm:line-clamp-none">Join our conservation efforts to preserve Mongolia's unique bird species and their natural habitats for future generations.</p>
                             </div>
                         </div>
-                    </div>
+                        <CarouselContent>
+                            {[
+                                { src: "/birds/Demoiselle Cranes with their chicks.jpg", alt: "Demoiselle Cranes with their chicks" },
+                                { src: "/birds/Saker Falcon.jpg", alt: "Saker Falcon" },
+                                { src: "/birds/Relict Gull.jpg", alt: "Relict Gull" },
+                                { src: "/birds/Amur Falcon adult female, Fairly Common Breeding Visitor to Forest Steppe.JPG", alt: "Amur Falcon adult female" },
+                                { src: "/birds/Bunting, Pallas's, adult male, Ugii lake, June, 2014 (9).jpg", alt: "Pallas's Bunting adult male" }
+                            ].map((item, index) => (
+                                <CarouselItem key={index}>
+                                    <div className="relative h-[250px] sm:h-[350px] md:h-[600px] w-full">
+                                        <Image
+                                            src={item.src}
+                                            alt={item.alt}
+                                            fill
+                                            className="object-cover"
+                                            priority
+                                        />
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <div className="absolute bottom-3 sm:bottom-10 right-3 sm:right-10 z-10 flex flex-col items-end gap-1 sm:gap-2">
+                            <div className="bg-black/10 text-white p-2 sm:p-3 rounded-md max-w-[150px] sm:max-w-[250px] text-center">
+                                <p className="font-semibold text-xs sm:text-xl">
+                                    Give now and your gift goes twice as far
+                                </p>
+                            </div>
+                            <Button size="sm" className="font-bold bg-red-600 text-xs sm:text-base">
+                                DONATE NOW
+                            </Button>
+                        </div>
+                        <CarouselPrevious className="left-1 sm:left-4 h-6 w-6 sm:h-8 sm:w-8" />
+                        <CarouselNext className="right-1 sm:right-4 h-6 w-6 sm:h-8 sm:w-8" />
+                    </Carousel>
                 </section>
 
                 {/* Footer Links */}
-                <section className="border-t border-gray-200 py-4">
-                    <div className="container mx-auto flex flex-wrap justify-center items-center gap-4 sm:gap-8 px-4">
-                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
-                            <Image src="/placeholder.svg" alt="Member" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
-                            <span className="whitespace-nowrap">Become a member</span>
-                        </Link>
-                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
-                            <Image src="/placeholder.svg" alt="Gift" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
-                            <span className="whitespace-nowrap">Get eNews</span>
-                        </Link>
-                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
-                            <Image src="/placeholder.svg" alt="Contact" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
-                            <span className="whitespace-nowrap">Contact Us</span>
-                        </Link>
-                        <Link href="#" className="flex items-center text-xs sm:text-sm text-blue-700">
-                            <Image src="/placeholder.svg" alt="Calendar" width={16} height={16} className="mr-1 sm:w-5 sm:h-5" />
-                            <span className="whitespace-nowrap">Events Us</span>
-                        </Link>
+                {/* <section className="border-t py-4 bg-muted/30">
+                    <div className="container mx-auto flex flex-wrap justify-center items-center gap-6 sm:gap-8 px-4">
+                        {[
+                            { icon: "member", text: "Become a member" },
+                            { icon: "gift", text: "Get eNews" },
+                            { icon: "contact", text: "Contact Us" },
+                            { icon: "calendar", text: "Events" }
+                        ].map((link, index) => (
+                            <Button key={index} variant="ghost" size="sm" asChild className="h-auto p-2">
+                                <Link href="#" className="flex items-center gap-2 text-xs sm:text-sm">
+                                    <Image src="/placeholder.svg" alt={link.icon} width={16} height={16} className="sm:w-5 sm:h-5" />
+                                    <span className="whitespace-nowrap">{link.text}</span>
+                                </Link>
+                            </Button>
+                        ))}
                     </div>
-                </section>
+                </section> */}
 
                 {/* YouTube and Online Guide Section */}
-                <section className="py-6 sm:py-8 px-4">
-                    <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                        <div className="border border-gray-200 p-3 sm:p-4">
-                            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Subscribe us on YOUTUBE:</h2>
-                            <div className="relative h-[120px] sm:h-[150px] w-full bg-gray-200">
-                                <Image 
-                                    src="/placeholder.svg" 
-                                    alt="YouTube Channel" 
-                                    fill 
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="bg-red-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
-                                        <div className="w-0 h-0 border-t-6 sm:border-t-8 border-t-transparent border-l-10 sm:border-l-12 border-l-white border-b-6 sm:border-b-8 border-b-transparent ml-1"></div>
+                <section className="py-8 sm:py-12 px-4 bg-background">
+                    <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Subscribe us on YOUTUBE:</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="relative h-[150px] sm:h-[180px] w-full bg-muted/50 rounded-md overflow-hidden">
+                                    <Image 
+                                        src="/placeholder.svg" 
+                                        alt="YouTube Channel" 
+                                        fill 
+                                        className="object-cover"
+                                    />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full">
+                                            <Icons.play className="h-6 w-6" />
+                                        </Button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="border border-gray-200 p-3 sm:p-4">
-                            <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">ONLINE GUIDE</h2>
-                            <h3 className="text-base sm:text-lg mb-3 sm:mb-4">Birds Mongolia</h3>
-                            <div className="flex mb-3 sm:mb-4">
-                                <input type="text" className="border border-gray-300 px-2 py-1 w-full" />
-                                <Button size="sm" variant="default" className="bg-gray-200 text-black border border-gray-300 ml-1">
-                                    <Icons.search className="w-4 h-4" />
-                                </Button>
-                            </div>
-                            <div className="relative h-[120px] sm:h-[150px] w-full">
-                                <Image 
-                                    src="/placeholder.svg" 
-                                    alt="Bird Guide" 
-                                    fill 
-                                    className="object-cover"
-                                />
-                            </div>
-                        </div>
+                            </CardContent>
+                        </Card>
+                        
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>ONLINE GUIDE</CardTitle>
+                                <CardDescription>Birds Mongolia</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex gap-2">
+                                    <Input type="text" placeholder="Search birds..." className="flex-1" />
+                                    <Button size="icon" variant="outline">
+                                        <Icons.search className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                                <div className="relative h-[150px] w-full rounded-md overflow-hidden">
+                                    <Image 
+                                        src="/placeholder.svg" 
+                                        alt="Bird Guide" 
+                                        fill 
+                                        className="object-cover"
+                                    />
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
                 </section>
 
                 {/* Recent News Section */}
-                <section className="py-6 sm:py-8 bg-white px-4">
+                <section className="py-8 sm:py-12 bg-muted/20 px-4">
                     <div className="container mx-auto">
-                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Recent news</h2>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Recent news</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="border border-gray-200">
-                                    <Image
-                                        src="/placeholder.svg"
-                                        alt="World Migratory Bird Day"
-                                        width={400}
-                                        height={200}
-                                        className="w-full h-40 object-cover"
-                                    />
-                                    <div className="p-4">
-                                        <h3 className="text-sm font-bold mb-2">World Migratory Bird Day 2019</h3>
-                                        <p className="text-xs mb-4">
+                                <Card key={i} className="overflow-hidden">
+                                    <div className="relative h-48 w-full">
+                                        <Image
+                                            src="/placeholder.svg"
+                                            alt="World Migratory Bird Day"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <CardHeader>
+                                        <CardTitle className="text-base">World Migratory Bird Day 2019</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="text-sm text-muted-foreground">
                                             Migratory birds are passengers without a visa across many countries. These birds should not be by cooperative initiative between countries.
                                         </p>
-                                        <Link href="#" className="text-xs text-blue-700">
-                                            Read more ≫≫
-                                        </Link>
-                                    </div>
-                                </div>
+                                    </CardContent>
+                                    <CardFooter>
+                                        <Button variant="link" size="sm" asChild className="px-0">
+                                            <Link href="#">Read more →</Link>
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
                             ))}
                         </div>
                     </div>
                 </section>
 
                 {/* Discover Wild Birds Section */}
-                <section className="py-6 sm:py-8 px-4">
+                <section className="py-8 sm:py-12 px-4 bg-background">
                     <div className="container mx-auto">
-                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Discover wild birds in Mongolia</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 bg-gray-700">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Discover wild birds in Mongolia</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-zinc-800 rounded-t-lg p-6">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="p-4 text-white">
+                                <div key={i} className="text-white">
                                     <h3 className="text-md font-bold uppercase mb-2">Bird watching tours in Chingiss Khaan birth place</h3>
-                                    <p className="text-xs mb-4">
+                                    <p className="text-sm opacity-90 mb-4">
                                         This will be a very general bird watching and birding tour. Eastern Mongolia has its lakes and rivers, big river valleys, nameless lakes and rivers, Kherlen, Balj, Khurkh, and Ikh nuur and many more.
                                     </p>
-                                    <Link href="#" className="text-xs text-white">
-                                        Read more ≫≫
-                                    </Link>
+                                    <Button variant="link" size="sm" className="px-0 text-white">
+                                        <Link href="#">Read more →</Link>
+                                    </Button>
                                 </div>
                             ))}
                         </div>
-                        <div className="mt-6 sm:mt-8 h-[150px] sm:h-[200px] relative">
+                        <div className="mt-0 h-[200px] sm:h-[250px] relative rounded-b-lg overflow-hidden">
                             <Image 
                                 src="/placeholder.svg" 
                                 alt="Mongolian Bird" 
@@ -154,29 +218,34 @@ export default function Home() {
                 </section>
 
                 {/* How You Can Support Us Section */}
-                <section className="py-6 sm:py-8 bg-white px-4">
+                <section className="py-8 sm:py-12 bg-muted/20 px-4">
                     <div className="container mx-auto">
-                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">How you can support us</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">How you can support us</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {['Shop now', 'Participate Events', 'Book Trips', 'Donate Us'].map((action, i) => (
-                                <div key={i} className="border border-gray-200">
-                                    <Image
-                                        src="/placeholder.svg"
-                                        alt={action}
-                                        width={300}
-                                        height={150}
-                                        className="w-full h-32 object-cover"
-                                    />
-                                    <div className="p-3">
-                                        <h3 className="text-sm font-bold mb-2">{action}</h3>
-                                        <p className="text-xs mb-4">
+                                <Card key={i} className="overflow-hidden">
+                                    <div className="relative h-40 w-full">
+                                        <Image
+                                            src="/placeholder.svg"
+                                            alt={action}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <CardHeader>
+                                        <CardTitle className="text-base">{action}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="text-sm text-muted-foreground">
                                             Migratory birds are passengers without a visa across many countries.
                                         </p>
-                                        <Link href="#" className="text-xs text-blue-700">
-                                            Read more ≫≫
-                                        </Link>
-                                    </div>
-                                </div>
+                                    </CardContent>
+                                    <CardFooter>
+                                        <Button variant="link" size="sm" asChild className="px-0">
+                                            <Link href="#">Read more →</Link>
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
                             ))}
                         </div>
                     </div>

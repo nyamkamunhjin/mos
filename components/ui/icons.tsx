@@ -11,6 +11,7 @@ import {
   Gift,
   Calendar,
   Contact,
+  Play,
 } from "lucide-react"
 
 type IconProps = React.HTMLAttributes<SVGElement> & {
@@ -30,4 +31,5 @@ export const Icons = {
   gift: (props: IconProps) => <Gift {...props} />,
   calendar: (props: IconProps) => <Calendar {...props} />,
   contact: (props: IconProps) => <Contact {...props} />,
+  play: (props: IconProps) => <Play {...props} />,
 } 

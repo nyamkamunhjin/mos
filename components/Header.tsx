@@ -12,11 +12,14 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from '@/lib/utils';
 
-export function Header() {
+interface HeaderProps {
+  isAbsolute?: boolean;
+}
+
+export function Header({ isAbsolute = false }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [openSections, setOpenSections] = React.useState<{[key: string]: boolean}>({});
   
@@ -33,10 +36,11 @@ export function Header() {
       id: "introduction",
       title: "INTRODUCTION",
       children: [
-        { title: "About Us", description: "Learn about our mission and history", href: "#" },
-        { title: "Members", description: "Join our community of bird enthusiasts", href: "#" },
+        { title: "Overview", description: "Overview of the Mongolian Ornithological Society", href: "/overview" },
+        { title: "Message", description: "Message from the Director of the Mongolian Ornithological Society", href: "/message" },
+        { title: "Members", description: "Join our community of bird enthusiasts", href: "/members" },
         { title: "Education", description: "Educational resources and programs", href: "#" },
-        { title: "Contact", description: "Get in touch with our team", href: "#" },
+        { title: "Research", description: "Research and publications", href: "#" },
         { title: "Events", description: "Upcoming events and activities", href: "#" }
       ]
     },
@@ -80,196 +84,193 @@ export function Header() {
   ];
 
   return (
-    <>
-      {/* Top Bar with Donate and Take Action buttons */}
-      <div className="bg-blue-700 w-full py-2 px-4 flex flex-col sm:flex-row justify-between items-center">
-        <div className="flex space-x-2 mb-2 sm:mb-0">
-          <Button size="sm" variant="secondary" className="bg-orange-500 hover:bg-orange-600 text-white border-none">
-            Donate
-          </Button>
-          <Button size="sm" variant="secondary" className="bg-orange-500 hover:bg-orange-600 text-white border-none">
-            Take action
-          </Button>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button size="icon" variant="ghost" className="text-white">
-            <Image src="/placeholder.svg" alt="English" width={24} height={24} />
-          </Button>
-          <Button size="icon" variant="ghost" className="text-white">
-            <Image src="/placeholder.svg" alt="Mongolian" width={24} height={24} />
-          </Button>
-          <div className="relative hidden sm:block">
-            <input type="text" className="py-1 px-2 rounded text-sm w-32" placeholder="Search..." />
-            <Icons.search className="w-4 h-4 absolute right-2 top-1.5 text-gray-500" />
-          </div>
-          <div className="flex items-center space-x-1">
-            <Link href="#" className="text-white">
-              <Image src="/placeholder.svg" alt="Facebook" width={24} height={24} />
-            </Link>
-            <Link href="#" className="text-white">
-              <Image src="/placeholder.svg" alt="Twitter" width={24} height={24} />
-            </Link>
-            <Link href="#" className="text-white">
-              <Image src="/placeholder.svg" alt="YouTube" width={24} height={24} />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Logo and Contact Info */}
-      <div className="bg-white py-4 px-4 sm:px-8 flex flex-col sm:flex-row justify-between items-center">
-        <div className="flex items-center mb-3 sm:mb-0">
-          <Image
-            src="/logo.png"
-            alt="Mongolian Ornithological Society"
-            width={80}
-            height={80}
-          />
-          <div className="ml-4">
-            <h1 className="text-lg font-bold text-blue-700">Mongolian</h1>
-            <h2 className="text-lg font-bold text-blue-700">Ornithological</h2>
-            <h3 className="text-lg font-bold text-blue-700">Society</h3>
-            <p className="text-xs text-gray-600">Conserving wild birds for people.</p>
-          </div>
-        </div>
-        <div className="text-center sm:text-right">
-          <p className="text-sm text-gray-600">+ 976 - 98100148</p>
-          <p className="text-sm text-gray-600">info@mos.mn</p>
-        </div>
-      </div>
-
-      {/* Main Navigation - Desktop */}
-      <div className="border-y border-gray-200 bg-white hidden md:block">
-        <div className="container mx-auto py-1">
-          <NavigationMenu>
-            <NavigationMenuList className="justify-start">
-              {menuItems.map((item) => 
-                item.noChildren ? (
-                  <NavigationMenuItem key={item.id}>
-                    <NavigationMenuLink href={item.href} className={cn(
-                      navigationMenuTriggerStyle(),
-                      "font-medium text-blue-700 hover:text-blue-800 hover:bg-blue-50"
-                    )}>
-                      {item.title}
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ) : (
-                  <NavigationMenuItem key={item.id}>
-                    <NavigationMenuTrigger className="font-medium text-blue-700 hover:text-blue-800 hover:bg-blue-50">
-                      {item.title}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <div className={`grid gap-4 p-4 md:w-[400px] lg:w-[500px] ${item.id === 'birds-mongolia' || item.id === 'expeditions' ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
-                        <div className="col-span-1">
-                          <h3 className="font-medium mb-2 text-sm">Overview</h3>
-                          <ul className="space-y-1.5">
-                            {item.children?.map((child, idx) => (
-                              <MenuItem 
-                                key={idx} 
-                                href={child.href} 
-                                title={child.title}
-                              >
-                                {child.description}
-                              </MenuItem>
-                            ))}
-                          </ul>
-                        </div>
-                        {item.id === 'birds-mongolia' && (
-                          <div className="col-span-1">
-                            <div className="flex flex-col space-y-3">
-                              <div className="overflow-hidden rounded-md">
-                                <Image 
-                                  src="/placeholder.svg" 
-                                  width={300}
-                                  height={180}
-                                  alt="Bird identification guide"
-                                  className="aspect-[1.8/1] object-cover" 
-                                />
-                              </div>
-                              <div className="text-sm">
-                                <h4 className="font-medium mb-1">Bird Identification</h4>
-                                <p className="text-muted-foreground">Learn to identify the birds of Mongolia with our comprehensive guide</p>
-                              </div>
+<header className={cn(
+  "w-full shadow-sm",
+  isAbsolute && "absolute top-0 left-0 right-0 z-50"
+)}>
+      {/* Main header with logo, navigation and action buttons */}
+      <div className={cn(
+        "w-full py-2 px-4 sm:px-6",
+        !isAbsolute && "bg-gradient-to-r from-blue-600 to-blue-800",
+        isAbsolute && "bg-black/30 backdrop-blur-sm"
+      )}>
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+            {/* Logo and action buttons */}
+            <div className="flex items-center justify-between">
+              <Link href="/">
+                <div className="flex items-center transition-transform duration-300 hover:scale-[1.02]">
+                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 mr-2">
+                    <Image
+                      src="/logo.png"
+                      alt="Mongolian Ornithological Society"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 40px, 48px"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap text-white font-bold tracking-tight text-sm sm:text-base">
+                      <span className="mr-1">Mongolian</span>
+                      <span className="mr-1">Ornithological</span>
+                      <span>Society</span>
+                    </div>
+                    <p className="text-[10px] text-white/80 mt-0.5 italic">Conserving wild birds for people.</p>
+                  </div>
+                </div>
+              </Link>
+              
+              {/* Mobile menu toggle */}
+              <div className="md:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-white hover:bg-white/10 h-8 w-8"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? <Icons.close className="h-4 w-4" /> : <Icons.menu className="h-4 w-4" />}
+                </Button>
+              </div>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:block flex-grow">
+              <NavigationMenu className="mx-auto">
+                <NavigationMenuList className="justify-center gap-1">
+                  {menuItems.map((item) => 
+                    item.noChildren ? (
+                      <NavigationMenuItem key={item.id}>
+                        <NavigationMenuLink href={item.href} className={cn(
+                          "px-2 py-1.5 font-medium text-white hover:text-white hover:bg-white/10 rounded-md transition-colors duration-200 tracking-wide text-sm"
+                        )}>
+                          {item.title}
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    ) : (
+                      <NavigationMenuItem key={item.id}>
+                        <NavigationMenuTrigger className="px-2 py-1.5 font-medium text-white hover:text-white hover:bg-white/10 rounded-md transition-colors duration-200 tracking-wide text-sm bg-transparent data-[state=open]:bg-white/10">
+                          {item.href ? (
+                            <Link href={item.href} className="focus:outline-none">
+                              {item.title}
+                            </Link>
+                          ) : (
+                            item.title
+                          )}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <div className={`grid gap-4 p-6 md:w-[400px] lg:w-[500px] bg-white rounded-lg shadow-lg border border-slate-100 ${item.id === 'birds-mongolia' || item.id === 'expeditions' ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
+                            <div className="col-span-1">
+                              <h3 className="font-medium mb-3 text-sm text-slate-500 uppercase tracking-wider">Overview</h3>
+                              <ul className="space-y-2">
+                                {item.children?.map((child, idx) => (
+                                  <MenuItem 
+                                    key={idx} 
+                                    href={child.href} 
+                                    title={child.title}
+                                  >
+                                    {child.description}
+                                  </MenuItem>
+                                ))}
+                              </ul>
                             </div>
+                            {item.id === 'birds-mongolia' && (
+                              <div className="col-span-1">
+                                <div className="flex flex-col space-y-3 h-full">
+                                  <div className="overflow-hidden rounded-lg shadow-md bg-blue-50 w-full">
+                                    <div className="relative aspect-[1.8/1]">
+                                      <Image 
+                                        src="/placeholder.svg" 
+                                        fill
+                                        alt="Bird identification guide"
+                                        className="object-cover hover:scale-105 transition-transform duration-500" 
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="text-sm mt-2">
+                                    <h4 className="font-medium mb-1 text-slate-800">Bird Identification</h4>
+                                    <p className="text-slate-500 leading-relaxed">Learn to identify the birds of Mongolia with our comprehensive guide</p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    )
+                  )}
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
+            
+            {/* Action Buttons */}
+            {/* <div className="hidden md:flex space-x-2">
+              <Button variant="outline" className="bg-red-500 border-0 font-medium px-4 py-1 h-8">
+                Donate
+              </Button>
+              <Button variant="outline" className="bg-red-500 border-0 font-medium px-4 py-1 h-8">
+                Take action
+              </Button>
+            </div> */}
+          </div>
+          
+          {/* Mobile menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden pt-2 pb-2 animate-in fade-in slide-in-from-top-5 duration-300">
+              <nav className="flex flex-col space-y-1">
+                {menuItems.map((item) => (
+                  <div key={item.id} className="border-b border-white/10 last:border-b-0">
+                    {item.noChildren ? (
+                      <Link 
+                        href={item.href || "#"} 
+                        className="block py-2 px-3 text-white font-medium rounded-md hover:bg-white/10 transition-colors duration-200 text-left text-sm"
+                      >
+                        {item.title}
+                      </Link>
+                    ) : (
+                      <div>
+                        <button 
+                          onClick={() => toggleSection(item.id)}
+                          className="flex w-full justify-between items-center py-2 px-3 text-white font-medium rounded-md hover:bg-white/10 transition-colors duration-200 text-left text-sm"
+                        >
+                          {item.href ? (
+                            <Link href={item.href} className="flex-grow text-left" onClick={(e) => e.stopPropagation()}>
+                              {item.title}
+                            </Link>
+                          ) : (
+                            item.title
+                          )}
+                          <Icons.close className={`h-4 w-4 transition-transform duration-300 ${openSections[item.id] ? 'rotate-180' : 'rotate-0'}`} />
+                        </button>
+                        
+                        {openSections[item.id] && (
+                          <div className="ml-4 pl-2 border-l border-white/20 animate-in fade-in slide-in-from-left-5 duration-300">
+                            {item.children?.map((child, idx) => (
+                              <Link 
+                                key={idx} 
+                                href={child.href}
+                                className="block py-1.5 px-3 text-xs text-white/90 hover:bg-white/10 rounded-md transition-colors duration-200"
+                              >
+                                {child.title}
+                              </Link>
+                            ))}
                           </div>
                         )}
                       </div>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                )
-              )}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="md:hidden border-y border-gray-200 bg-white py-2 px-4">
-        <div className="flex justify-between items-center">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="text-blue-700"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <Icons.close className="h-6 w-6" /> : <Icons.menu className="h-6 w-6" />}
-          </Button>
-          
-          <div className="sm:hidden relative">
-            <input type="text" className="py-1 px-2 rounded text-sm w-32" placeholder="Search..." />
-            <Icons.search className="w-4 h-4 absolute right-2 top-1.5 text-gray-500" />
-          </div>
-        </div>
-        
-        {mobileMenuOpen && (
-          <div className="pt-4 pb-2">
-            <nav className="flex flex-col space-y-1">
-              {menuItems.map((item) => (
-                <div key={item.id} className="border-b border-gray-100 last:border-b-0">
-                  {item.noChildren ? (
-                    <Link 
-                      href={item.href || "#"} 
-                      className="block py-2 px-3 text-blue-700 font-medium rounded-md hover:bg-blue-50"
-                    >
-                      {item.title}
-                    </Link>
-                  ) : (
-                    <div>
-                      <button 
-                        onClick={() => toggleSection(item.id)}
-                        className="flex w-full justify-between items-center py-2 px-3 text-blue-700 font-medium rounded-md hover:bg-blue-50"
-                      >
-                        {item.title}
-                        <Icons.close className={`h-4 w-4 transition-transform duration-200 ${openSections[item.id] ? 'rotate-45' : 'rotate-0'}`} />
-                      </button>
-                      
-                      {openSections[item.id] && (
-                        <div className="ml-4 pl-2 border-l border-blue-100">
-                          {item.children?.map((child, idx) => (
-                            <Link 
-                              key={idx} 
-                              href={child.href}
-                              className="block py-2 px-3 text-sm text-blue-600 hover:bg-blue-50 rounded"
-                            >
-                              {child.title}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </nav>
-            
-            <div className="mt-4 pt-4 border-t flex gap-2">
-              <Button size="sm" className="w-1/2 bg-orange-500 hover:bg-orange-600">Donate</Button>
-              <Button size="sm" className="w-1/2 bg-blue-700 hover:bg-blue-800">Take Action</Button>
+                    )}
+                  </div>
+                ))}
+              </nav>
+              
+              {/* <div className="mt-4 pt-2 border-t border-white/10 flex gap-4">
+                <Button size="sm" variant="outline" className="w-1/2 border-0 bg-red-500 font-medium h-8">Donate</Button>
+                <Button size="sm" variant="outline" className="w-1/2 border-0 bg-red-500 font-medium h-8">Take Action</Button>
+              </div> */}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </>
+    </header>
   );
 }
 
@@ -287,11 +288,11 @@ const MenuItem = ({
     <li>
       <Link 
         href={href} 
-        className="block rounded-md px-2 py-1.5 text-sm no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-700"
+        className="block rounded-md px-3 py-2 text-sm no-underline outline-none transition-colors hover:bg-blue-50 text-slate-700 hover:text-blue-700 group"
       >
-        <div className="font-medium">{title}</div>
+        <div className="font-medium group-hover:translate-x-0.5 transition-transform duration-200">{title}</div>
         {children && (
-          <div className="text-xs text-muted-foreground line-clamp-1">
+          <div className="text-xs text-slate-500 line-clamp-1 group-hover:text-slate-600 transition-colors">
             {children}
           </div>
         )}
@@ -311,13 +312,13 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-700 focus:bg-accent focus:text-accent-foreground group",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-sm font-medium leading-none group-hover:translate-x-0.5 transition-transform duration-200">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-slate-500 group-hover:text-slate-600 transition-colors">
             {children}
           </p>
         </a>

@@ -2,9 +2,6 @@ import {
   Menu,
   X,
   Search,
-  Facebook,
-  Twitter,
-  Youtube,
   Mail,
   Phone,
   User,
@@ -22,9 +19,6 @@ export const Icons = {
   menu: (props: IconProps) => <Menu {...props} />,
   close: (props: IconProps) => <X {...props} />,
   search: (props: IconProps) => <Search {...props} />,
-  facebook: (props: IconProps) => <Facebook {...props} />,
-  twitter: (props: IconProps) => <Twitter {...props} />,
-  youtube: (props: IconProps) => <Youtube {...props} />,
   mail: (props: IconProps) => <Mail {...props} />,
   phone: (props: IconProps) => <Phone {...props} />,
   user: (props: IconProps) => <User {...props} />,
@@ -32,4 +26,4 @@ export const Icons = {
   calendar: (props: IconProps) => <Calendar {...props} />,
   contact: (props: IconProps) => <Contact {...props} />,
   play: (props: IconProps) => <Play {...props} />,
-} 
+}

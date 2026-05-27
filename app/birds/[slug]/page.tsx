@@ -146,7 +146,7 @@ export default async function BirdDetailPage({
   const audioUrl = getStrapiMediaUrl(bird.audioCall);
 
   return (
-    <div className="bg-mos-surface min-h-screen">
+    <div className="bg-mos-surface min-h-screen pt-20">
       {/* ── Hero ── */}
       <section className="relative h-[420px] md:h-[520px] overflow-hidden flex items-end">
         <div className="absolute inset-0 z-0 bg-mos-periwinkle/20">

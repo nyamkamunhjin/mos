@@ -137,7 +137,7 @@ export default async function BirdsPage({
   const statuses = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
 
   return (
-    <div className="bg-mos-surface min-h-screen">
+    <div className="bg-mos-surface min-h-screen pt-20">
       {/* ── Hero ── */}
       <section className="relative h-[400px] md:h-[480px] overflow-hidden flex items-end">
         <div className="absolute inset-0 z-0">

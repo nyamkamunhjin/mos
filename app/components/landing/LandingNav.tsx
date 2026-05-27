@@ -58,7 +58,7 @@ export function LandingNav() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full flex justify-between items-center px-4 sm:px-8 lg:px-12 py-4 sm:py-6 z-50 transition-all duration-300 ${
+      <nav className={`fixed top-0 left-0 w-full flex justify-between items-center px-4 sm:px-8 lg:px-12 py-4 sm:py-6 z-[1000] transition-all duration-300 ${
         scrolled
           ? 'bg-black/20 backdrop-blur-sm shadow-none'
           : 'bg-white shadow-sm border-b border-mos-border/20'

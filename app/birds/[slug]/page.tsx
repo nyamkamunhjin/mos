@@ -104,6 +104,7 @@ function ImageGallery({ images }: { images: StrapiBird['images'] }) {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={85}
                 />
               </div>
             );
@@ -158,6 +159,7 @@ export default async function BirdDetailPage({
               className="object-cover"
               priority
               sizes="100vw"
+              quality={85}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">

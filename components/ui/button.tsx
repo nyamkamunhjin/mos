@@ -36,7 +36,7 @@ const buttonVariants = cva(
         "pill-sm": "px-6 py-2.5 rounded-full text-sm font-bold",
       },
       shape: {
-        default: "rounded-md",
+        default: "",
         pill: "rounded-full",
         square: "rounded-xl",
       },

@@ -88,7 +88,12 @@ export function LandingNav() {
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
-          <Button href="/donate" variant="outline" size="pill-sm" className={`${scrolled ? 'bg-white/15 text-white hover:bg-white/25 border-0' : 'bg-[#1a368d] text-white border-0'}`}>
+          <Button
+            href="/donate"
+            variant="default"
+            size="pill-sm"
+            className={`${scrolled ? 'bg-white/15 text-white hover:bg-white/25' : 'bg-[#1a368d] text-white'} border-0 shadow-md`}
+          >
             Donate
           </Button>
 
@@ -149,7 +154,7 @@ export function LandingNav() {
                 Blog News
               </span>
               <div className="mt-6">
-                <Button href="/donate" variant="outline" size="pill" className="w-full bg-[#1a368d] text-white border-0 shadow-md" onClick={() => setMenuOpen(false)}>
+                <Button href="/donate" variant="default" size="pill" className="w-full bg-[#1a368d] border-0 shadow-md" onClick={() => setMenuOpen(false)}>
                   Donate
                 </Button>
               </div>

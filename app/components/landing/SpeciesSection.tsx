@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export function SpeciesSection() {
@@ -81,15 +82,12 @@ export function SpeciesSection() {
             <p className="text-sm font-[Manrope,sans-serif] opacity-80 mb-6">
               Confirmed species documented across the region
             </p>
-            <Button
+            <Link
               href="/birds"
-              variant="ghost"
-              size="sm"
-              shape="pill"
-              className="border border-white/20 text-white hover:bg-white/10"
+              className="inline-block text-xs font-bold tracking-widest uppercase border border-white/20 px-4 py-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
               Browse Data
-            </Button>
+            </Link>
           </div>
         </div>
       </div>

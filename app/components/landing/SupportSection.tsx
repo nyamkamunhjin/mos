@@ -68,7 +68,7 @@ export function SupportSection() {
           ))}
         </div>
         <div className="mt-20 text-center">
-          <Button href="/donate" variant="outline" size="pill" className="bg-white text-[#001f6e] border-0 hover:bg-[#dce1ff] shadow-2xl tracking-wider uppercase">
+          <Button href="/donate" variant="default" size="pill" className="bg-white text-[#001f6e] hover:bg-[#dce1ff] shadow-2xl tracking-wider uppercase">
             Donate Today
           </Button>
         </div>

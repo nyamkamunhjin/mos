@@ -15,8 +15,8 @@ export function SpeciesSection() {
             </h2>
           </div>
           <Link
-            href="#"
-            className="text-[#001f6e] font-medium border-b border-[#001f6e]/20 pb-1"
+            href="/birds"
+            className="text-[#001f6e] font-medium border-b border-[#001f6e]/20 pb-1 cursor-pointer"
           >
             View Full Directory
           </Link>
@@ -84,9 +84,12 @@ export function SpeciesSection() {
             <p className="text-sm font-[Manrope,sans-serif] opacity-80 mb-6">
               Confirmed species documented across the region
             </p>
-            <button className="text-xs font-bold tracking-widest uppercase border border-white/20 px-4 py-2 rounded-full hover:bg-white/10">
+            <Link
+              href="/birds"
+              className="inline-block text-xs font-bold tracking-widest uppercase border border-white/20 px-4 py-2 rounded-full hover:bg-white/10 cursor-pointer"
+            >
               Browse Data
-            </button>
+            </Link>
           </div>
         </div>
       </div>

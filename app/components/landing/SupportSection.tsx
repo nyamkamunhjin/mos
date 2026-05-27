@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function SupportSection() {
   return (
@@ -46,7 +47,11 @@ export function SupportSection() {
               desc: 'Join our society for exclusive reports and forum access.',
             },
           ].map((item, i) => (
-            <div key={i} className="text-center group">
+            <Link
+              key={i}
+              href="/donate"
+              className="text-center group cursor-pointer"
+            >
               <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 transition-all border border-white/20">
                 <span className="material-symbols-outlined text-4xl">
                   {item.icon}
@@ -58,13 +63,16 @@ export function SupportSection() {
               <p className="text-sm opacity-80 [text-shadow:0_1px_3px_rgba(0,0,0,0.4)] leading-relaxed">
                 {item.desc}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
         <div className="mt-20 text-center">
-          <button className="bg-white text-[#001f6e] px-14 py-5 rounded-full font-bold hover:bg-[#dce1ff] transition-all shadow-2xl active:scale-95 text-sm tracking-wider uppercase">
+          <Link
+            href="/donate"
+            className="inline-block bg-white text-[#001f6e] px-14 py-5 rounded-full font-bold hover:bg-[#dce1ff] transition-all shadow-2xl active:scale-95 text-sm tracking-wider uppercase cursor-pointer"
+          >
             Donate Today
-          </button>
+          </Link>
         </div>
       </div>
     </section>

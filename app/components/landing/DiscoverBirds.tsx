@@ -44,8 +44,8 @@ export function DiscoverBirds() {
                 'Professional guided tours through the heart of the Mongolian wilderness, specifically designed for ornithologists and nature photographers.'}
             </p>
             <Link
-              href="#"
-              className="text-[#001f6e] font-bold text-xs tracking-wide hover:underline underline-offset-4"
+              href="/birds"
+              className="text-[#001f6e] font-bold text-xs tracking-wide hover:underline underline-offset-4 cursor-pointer"
             >
               Learn More
             </Link>

@@ -39,12 +39,15 @@ export function MemberSection() {
             ))}
           </div>
           <div className="flex flex-wrap gap-6 items-center">
-            <button className="bg-[#001f6e] text-white px-10 py-4 rounded-full font-bold hover:bg-[#1a368d] transition-all shadow-lg active:scale-95">
-              Become a Member
-            </button>
             <Link
               href="#"
-              className="text-[#001f6e] font-bold flex items-center gap-2 group text-sm"
+              className="bg-[#001f6e] text-white px-10 py-4 rounded-full font-bold hover:bg-[#1a368d] transition-all shadow-lg active:scale-95 cursor-pointer"
+            >
+              Become a Member
+            </Link>
+            <Link
+              href="/introduction/overview"
+              className="text-[#001f6e] font-bold flex items-center gap-2 group text-sm cursor-pointer"
             >
               View Membership Tiers
               <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">

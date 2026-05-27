@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function HeroSection() {
   return (
@@ -28,12 +29,15 @@ export function HeroSection() {
           Your support helps us protect Mongolia&apos;s birds and their habitats.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-[#faf8ff] text-[#001f6e] px-10 py-4 rounded-full font-bold hover:bg-[#1a368d] hover:text-white transition-all active:scale-95 shadow-lg">
+          <Link
+            href="/donate"
+            className="bg-[#faf8ff] text-[#001f6e] px-10 py-4 rounded-full font-bold hover:bg-[#1a368d] hover:text-white transition-all active:scale-95 shadow-lg cursor-pointer"
+          >
             DONATE NOW
-          </button>
-          <button className="bg-white/10 border border-white/40 text-white backdrop-blur-md px-10 py-4 rounded-full font-bold hover:bg-white/20 transition-all active:scale-95 shadow-lg">
+          </Link>
+          <span className="bg-white/10 border border-white/40 text-white backdrop-blur-md px-10 py-4 rounded-full font-bold cursor-default select-none">
             Learn More
-          </button>
+          </span>
         </div>
       </div>
     </header>

@@ -10,15 +10,21 @@ import type {
 const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 
-function buildUrl(path: string, params?: Record<string, string>): string {
+function buildUrl(path: string, params?: Record<string, string | string[]>): string {
   const url = new URL(`${STRAPI_URL}/api${path}`);
   if (params) {
-    Object.entries(params).forEach(([key, val]) => url.searchParams.append(key, val));
+    Object.entries(params).forEach(([key, val]) => {
+      if (Array.isArray(val)) {
+        val.forEach((v) => url.searchParams.append(key, v));
+      } else {
+        url.searchParams.append(key, val);
+      }
+    });
   }
   return url.toString();
 }
 
-async function fetchAPI<T>(path: string, params?: Record<string, string>): Promise<T> {
+async function fetchAPI<T>(path: string, params?: Record<string, string | string[]>): Promise<T> {
   const res = await fetch(buildUrl(path, params), {
     headers: {
       ...(STRAPI_TOKEN ? { Authorization: `Bearer ${STRAPI_TOKEN}` } : {}),
@@ -66,8 +72,8 @@ const DEFAULT_POPULATE = 'populate=images&populate=audioCall&populate=family';
 export async function getBirds(
   filters?: BirdFilters,
 ): Promise<{ birds: StrapiBird[]; pagination: StrapiPagination }> {
-  const params: Record<string, string> = {
-    populate: 'images,audioCall,family',
+  const params: Record<string, string | string[]> = {
+    populate: ['images', 'audioCall', 'family'],
     'pagination[page]': String(filters?.page || 1),
     'pagination[pageSize]': String(filters?.pageSize || 24),
     sort: filters?.sort || 'commonName:asc',
@@ -94,7 +100,7 @@ export async function getBirds(
 export async function getBirdBySlug(slug: string): Promise<StrapiBird | null> {
   try {
     const res = await fetchAPI<StrapiCollectionResponse<StrapiBird>>('/birds', {
-      populate: 'images,audioCall,family,similarSpecies,similarSpecies.images',
+      populate: ['images', 'audioCall', 'family', 'similarSpecies', 'similarSpecies.images'],
       'filters[slug][$eq]': slug,
       'pagination[pageSize]': '1',
     });

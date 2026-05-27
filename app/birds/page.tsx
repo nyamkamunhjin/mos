@@ -274,7 +274,7 @@ function BirdsPageContent() {
                 )}
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {birds.map((bird) => (
                   <BirdCard key={bird.id} bird={bird} />
                 ))}

@@ -26,7 +26,7 @@ function BirdCard({ bird }: { bird: StrapiBird }) {
   return (
     <Link
       href={`/birds/${bird.slug}`}
-      className="group block bg-white border border-mos-border/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500"
+      className="group block bg-white border border-mos-border/20 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
     >
       <div className="aspect-[4/3] relative overflow-hidden bg-mos-periwinkle/20">
         {imgUrl ? (
@@ -43,37 +43,37 @@ function BirdCard({ bird }: { bird: StrapiBird }) {
             <span className="material-symbols-outlined text-5xl text-mos-navy/20">raven</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <h3 className="font-[Newsreader,serif] text-lg text-white font-semibold leading-tight drop-shadow-sm">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+          <h3 className="font-[Newsreader,serif] text-2xl md:text-3xl text-white font-bold leading-tight drop-shadow-lg">
             {bird.commonName}
           </h3>
-          <p className="text-white/70 text-xs italic font-[Manrope,sans-serif] mt-0.5 drop-shadow-sm">
+          <p className="text-white/80 text-sm md:text-base italic font-[Manrope,sans-serif] mt-1.5 drop-shadow-md">
             {bird.scientificName}
           </p>
         </div>
         <span
-          className={`absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold font-[Manrope,sans-serif] tracking-wider ${STATUS_COLORS[bird.conservationStatus] || 'bg-gray-100 text-gray-700'}`}
+          className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs md:text-sm font-bold font-[Manrope,sans-serif] tracking-wider shadow-md ${STATUS_COLORS[bird.conservationStatus] || 'bg-gray-100 text-gray-700'}`}
         >
           {bird.conservationStatus}
         </span>
       </div>
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
+      <div className="p-5 md:p-6">
+        <div className="flex items-center gap-3 mb-3">
           {bird.family?.name && (
-            <span className="text-[10px] font-bold text-mos-accent font-[Manrope,sans-serif] tracking-wider uppercase bg-mos-accent/5 px-2 py-0.5 rounded-full">
+            <span className="text-xs md:text-sm font-bold text-mos-accent font-[Manrope,sans-serif] tracking-wider uppercase bg-mos-accent/5 px-3 py-1 rounded-full">
               {bird.family.name}
             </span>
           )}
           {bird.mongolianName && (
-            <span className="text-[10px] text-mos-muted font-[Manrope,sans-serif]">
+            <span className="text-xs md:text-sm text-mos-muted font-[Manrope,sans-serif]">
               {bird.mongolianName}
             </span>
           )}
         </div>
-        <div className="flex items-center gap-3 text-[11px] text-mos-muted font-[Manrope,sans-serif]">
+        <div className="flex items-center gap-3 text-sm md:text-base text-mos-muted font-[Manrope,sans-serif]">
           {bird.size && <span>{bird.size}</span>}
-          {bird.order && <span className="text-mos-border">|</span>}
+          {bird.order && <span className="text-mos-border/50">|</span>}
           {bird.order && <span>{bird.order}</span>}
         </div>
       </div>

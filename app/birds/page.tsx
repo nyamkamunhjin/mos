@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useCallback, useMemo } from 'react';
+import { Suspense, useCallback, useMemo, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -91,6 +91,24 @@ function BirdsPageContent() {
   const search = searchParams.get('search') || undefined;
   const view = searchParams.get('view') || 'grid';
 
+  const [searchInput, setSearchInput] = useState(search || '');
+
+  useEffect(() => {
+    setSearchInput(search || '');
+  }, [search]);
+
+  useEffect(() => {
+    if (searchInput === (search || '')) return;
+    const timer = setTimeout(() => {
+      const p = new URLSearchParams(searchParams.toString());
+      if (searchInput) p.set('search', searchInput);
+      else p.delete('search');
+      p.delete('page');
+      router.push(`/birds?${p.toString()}`, { scroll: false });
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
   const filters = useMemo(
     () => ({ page, family, conservationStatus, search, pageSize: 24 }),
     [page, family, conservationStatus, search],
@@ -107,34 +125,6 @@ function BirdsPageContent() {
       router.push(`/birds?${p.toString()}`, { scroll: false });
     },
     [searchParams, router],
-  );
-
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const data = new FormData(e.currentTarget);
-      const p = new URLSearchParams();
-      const search = data.get('search') as string;
-      const fam = data.get('family') as string;
-      const status = data.get('conservationStatus') as string;
-      if (search) p.set('search', search);
-      if (fam) p.set('family', fam);
-      if (status) p.set('conservationStatus', status);
-      router.push(`/birds?${p.toString()}`, { scroll: false });
-    },
-    [router],
-  );
-
-  const buildFilterUrl = useCallback(
-    (overrides: Record<string, string>) => {
-      const p = new URLSearchParams();
-      if (family) p.set('family', family);
-      if (conservationStatus) p.set('conservationStatus', conservationStatus);
-      if (search) p.set('search', search);
-      Object.entries(overrides).forEach(([k, v]) => p.set(k, v));
-      return `/birds?${p.toString()}`;
-    },
-    [family, conservationStatus, search],
   );
 
   const hasFilters = family || conservationStatus || search;
@@ -170,18 +160,15 @@ function BirdsPageContent() {
 
       <div className="max-w-7xl mx-auto px-8 py-12">
         {/* ── Filter Bar ── */}
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-wrap items-end gap-4 mb-12 p-6 bg-white border border-mos-border/30 rounded-2xl shadow-sm"
-        >
+        <div className="flex flex-wrap items-end gap-4 mb-12 p-6 bg-white border border-mos-border/30 rounded-2xl shadow-sm">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-[11px] font-bold text-mos-muted font-[Manrope,sans-serif] tracking-wider uppercase mb-1.5">
               Search
             </label>
             <input
               type="text"
-              name="search"
-              defaultValue={search || ''}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Common or scientific name..."
               className="w-full px-4 py-2.5 rounded-xl border border-mos-border/30 bg-mos-surface text-sm font-[Manrope,sans-serif] text-mos-text placeholder:text-mos-muted/50 focus:outline-none focus:ring-2 focus:ring-mos-navy/10 focus:border-mos-navy/30 transition-all"
             />
@@ -192,8 +179,8 @@ function BirdsPageContent() {
               Family
             </label>
             <select
-              name="family"
-              defaultValue={family || ''}
+              value={family || ''}
+              onChange={(e) => setParam('family', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-mos-border/30 bg-mos-surface text-sm font-[Manrope,sans-serif] text-mos-text focus:outline-none focus:ring-2 focus:ring-mos-navy/10 focus:border-mos-navy/30 transition-all appearance-none"
             >
               <option value="">All Families</option>
@@ -208,8 +195,8 @@ function BirdsPageContent() {
               Status
             </label>
             <select
-              name="conservationStatus"
-              defaultValue={conservationStatus || ''}
+              value={conservationStatus || ''}
+              onChange={(e) => setParam('conservationStatus', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-mos-border/30 bg-mos-surface text-sm font-[Manrope,sans-serif] text-mos-text focus:outline-none focus:ring-2 focus:ring-mos-navy/10 focus:border-mos-navy/30 transition-all appearance-none"
             >
               <option value="">All Statuses</option>
@@ -219,23 +206,15 @@ function BirdsPageContent() {
             </select>
           </div>
 
-          <div className="flex gap-2 pb-0.5">
-            <button
-              type="submit"
-              className="px-6 py-2.5 bg-mos-navy text-white rounded-xl text-sm font-bold font-[Manrope,sans-serif] hover:opacity-90 active:scale-95 transition-all"
+          {hasFilters && (
+            <Link
+              href="/birds"
+              className="px-4 py-2.5 border border-mos-border/30 text-mos-muted rounded-xl text-sm font-[Manrope,sans-serif] hover:bg-mos-surface transition-all"
             >
-              Filter
-            </button>
-            {hasFilters && (
-              <Link
-                href="/birds"
-                className="px-4 py-2.5 border border-mos-border/30 text-mos-muted rounded-xl text-sm font-[Manrope,sans-serif] hover:bg-mos-surface transition-all"
-              >
-                Clear
-              </Link>
-            )}
-          </div>
-        </form>
+              Clear
+            </Link>
+          )}
+        </div>
 
         {/* ── Results ── */}
         {isLoading ? (

@@ -2,13 +2,6 @@ import Image from 'next/image';
 
 const members = [
   {
-    name: "Prof. D. Sumiya",
-    title: "Honorary Member",
-    imageUrl: "/members/Sumiya.jpg",
-    role: 'Founding Member',
-    bio: "Prof. D. Sumiya has more than 20 years' experience in studying birds of Khuvsgul Lake with Russian colleagues. His most famous monograph is \"Birds of Kuvsgul Lake and its surrounding territories\". He is one of the founders of the Ornithological Laboratory at NUM and has worked at the University more than 30 years. The main topic of his bird research is ecology of Gulls and rare bird conservation in Mongolia. In recent years, he is working on breeding biology and conservation of steppe raptors with Gomboo. He is a famous lecturer of Ornithology in Mongolia and has been training new generation of Mongolian ornithologists for 40 years.",
-  },
-  {
     name: "Dr. S. Gombobaatar",
     title: "Founder & Director",
     imageUrl: "/Gombobaatar.JPG",
@@ -80,9 +73,9 @@ const members = [
   },
 ];
 
-const leadership = members.slice(0, 2);
-const boardMembers = members.slice(2, 5);
-const otherMembers = members.slice(5);
+const leadership = members.slice(0, 1);
+const boardMembers = members.slice(1, 4);
+const otherMembers = members.slice(4);
 
 export default function MembersPage() {
   return (

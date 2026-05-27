@@ -7,13 +7,19 @@ export interface StrapiMedia {
   formats: Record<string, { url: string; width: number; height: number }> | null;
 }
 
+export interface StrapiFamily {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 export interface StrapiBird {
   id: number;
   commonName: string;
   scientificName: string;
   mongolianName: string;
   slug: string;
-  family: string | null;
+  family: StrapiFamily | null;
   order: string;
   conservationStatus: 'LC' | 'NT' | 'VU' | 'EN' | 'CR' | 'EW' | 'EX';
   mongolianStatus: 'Resident' | 'Breeding' | 'Migrant' | 'Vagrant' | 'Unknown';
@@ -46,21 +52,10 @@ export interface StrapiPagination {
 }
 
 export interface StrapiCollectionResponse<T> {
-  data: {
-    id: number;
-    attributes: T;
-  }[];
+  data: T[];
   meta: {
     pagination: StrapiPagination;
   };
-}
-
-export interface StrapiSingleResponse<T> {
-  data: {
-    id: number;
-    attributes: T;
-  };
-  meta: Record<string, unknown>;
 }
 
 export interface BirdFilters {

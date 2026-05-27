@@ -182,7 +182,7 @@ export default async function BirdDetailPage({
       {/* ── Quick Facts Bar ── */}
       <div className="border-b border-mos-border/30 bg-white/50 backdrop-blur-sm sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-8 py-4 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <QuickFact label="Family" value={bird.family} />
+          <QuickFact label="Family" value={bird.family?.name || null} />
           <QuickFact label="Order" value={bird.order} />
           <QuickFact label="Size" value={bird.size} />
           {bird.wingspan && <QuickFact label="Wingspan" value={bird.wingspan} />}

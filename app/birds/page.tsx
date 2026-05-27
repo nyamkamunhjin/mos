@@ -52,9 +52,9 @@ function BirdCard({ bird }: { bird: StrapiBird }) {
       </div>
       <div className="p-4">
         <div className="flex items-center gap-2 mb-2">
-          {bird.family && (
+              {bird.family?.name && (
             <span className="text-[10px] font-bold text-mos-accent font-[Manrope,sans-serif] tracking-wider uppercase bg-mos-accent/5 px-2 py-0.5 rounded-full">
-              {bird.family}
+              {bird.family.name}
             </span>
           )}
           {bird.mongolianName && (

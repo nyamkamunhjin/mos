@@ -1,10 +1,24 @@
+'use client';
+
+import { Suspense, useCallback, useMemo } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { Metadata } from 'next';
-import { getBirds, getFamilies, getStrapiMediaUrl } from '@/lib/strapi';
-import type { StrapiBird } from '@/lib/types/bird';
+import { getStrapiMediaUrl } from '@/lib/strapi';
+import { useBirds, useFamilies } from '@/lib/api/birds';
 import { STATUS_COLORS } from '@/lib/status';
+import type { BirdFilters, StrapiBird } from '@/lib/types/bird';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
+
+export default function BirdsPage() {
+  return (
+    <Suspense fallback={<div className="bg-mos-surface min-h-screen pt-20" />}>
+      <BirdsPageContent />
+    </Suspense>
+  );
+}
+
+const statuses = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
 
 function BirdCard({ bird }: { bird: StrapiBird }) {
   const imgUrl = getStrapiMediaUrl(bird.images[0], 'small');
@@ -46,7 +60,7 @@ function BirdCard({ bird }: { bird: StrapiBird }) {
       </div>
       <div className="p-4">
         <div className="flex items-center gap-2 mb-2">
-              {bird.family?.name && (
+          {bird.family?.name && (
             <span className="text-[10px] font-bold text-mos-accent font-[Manrope,sans-serif] tracking-wider uppercase bg-mos-accent/5 px-2 py-0.5 rounded-full">
               {bird.family.name}
             </span>
@@ -67,96 +81,63 @@ function BirdCard({ bird }: { bird: StrapiBird }) {
   );
 }
 
-function buildFilterUrl(baseParams: Record<string, string>, overrides: Record<string, string>): string {
-  const merged: Record<string, string> = {};
-  for (const [k, v] of Object.entries(baseParams)) {
-    if (typeof v === 'string') merged[k] = v;
-  }
-  Object.assign(merged, overrides);
-  return `/birds?${new URLSearchParams(merged).toString()}`;
-}
+function BirdsPageContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-function Pagination({
-  current,
-  total,
-  pageCount,
-  filterParams,
-}: {
-  current: number;
-  total: number;
-  pageCount: number;
-  filterParams: Record<string, string>;
-}) {
-  const buildHref = (page: number) => buildFilterUrl(filterParams, { page: String(page) });
+  const page = Number(searchParams.get('page')) || 1;
+  const family = searchParams.get('family') || undefined;
+  const conservationStatus = searchParams.get('conservationStatus') || undefined;
+  const search = searchParams.get('search') || undefined;
+  const view = searchParams.get('view') || 'grid';
 
-  return (
-    <div className="flex items-center justify-center gap-4 pt-12">
-      {current > 1 && (
-        <Link
-          href={buildHref(current - 1)}
-          className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity"
-        >
-          <span className="material-symbols-outlined text-base">arrow_back</span>
-          Previous
-        </Link>
-      )}
-      <span className="text-sm text-mos-muted font-[Manrope,sans-serif]">
-        Page {current} of {pageCount}
-        <span className="mx-2">&middot;</span>
-        {total} species
-      </span>
-      {current < pageCount && (
-        <Link
-          href={buildHref(current + 1)}
-          className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity"
-        >
-          Next
-          <span className="material-symbols-outlined text-base">arrow_forward</span>
-        </Link>
-      )}
-    </div>
+  const filters = useMemo(
+    () => ({ page, family, conservationStatus, search, pageSize: 24 }),
+    [page, family, conservationStatus, search],
   );
-}
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Birds of Mongolia — Species Database',
-    description:
-      'Explore the complete database of Mongolian bird species. Search by name, family, and conservation status. Learn about taxonomy, ecology, distribution, and conservation of birds in Mongolia.',
-    openGraph: {
-      title: 'Birds of Mongolia — Species Database',
-      description:
-        'Explore the complete database of Mongolian bird species. Search by name, family, and conservation status.',
+  const { birds, pagination, isLoading } = useBirds(filters);
+  const { families } = useFamilies();
+
+  const setParam = useCallback(
+    (key: string, value: string) => {
+      const p = new URLSearchParams(searchParams.toString());
+      if (value) { p.set(key, value); } else { p.delete(key); }
+      if (key !== 'page') p.delete('page');
+      router.push(`/birds?${p.toString()}`, { scroll: false });
     },
-  };
-}
+    [searchParams, router],
+  );
 
-export default async function BirdsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const rawParams = await searchParams;
-  const page = Number(rawParams.page) || 1;
-  const family = typeof rawParams.family === 'string' ? rawParams.family : undefined;
-  const conservationStatus =
-    typeof rawParams.conservationStatus === 'string' ? rawParams.conservationStatus : undefined;
-  const search = typeof rawParams.search === 'string' ? rawParams.search : undefined;
-  const view = typeof rawParams.view === 'string' ? rawParams.view : 'grid';
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const data = new FormData(e.currentTarget);
+      const p = new URLSearchParams();
+      const search = data.get('search') as string;
+      const fam = data.get('family') as string;
+      const status = data.get('conservationStatus') as string;
+      if (search) p.set('search', search);
+      if (fam) p.set('family', fam);
+      if (status) p.set('conservationStatus', status);
+      router.push(`/birds?${p.toString()}`, { scroll: false });
+    },
+    [router],
+  );
 
-  const [birdData, families] = await Promise.all([
-    getBirds({ page, family, conservationStatus, search, pageSize: 24 }).catch(() => ({ birds: [] as StrapiBird[], pagination: { page: 1, pageSize: 24, pageCount: 1, total: 0 } })),
-    getFamilies().catch(() => []),
-  ]);
+  const buildFilterUrl = useCallback(
+    (overrides: Record<string, string>) => {
+      const p = new URLSearchParams();
+      if (family) p.set('family', family);
+      if (conservationStatus) p.set('conservationStatus', conservationStatus);
+      if (search) p.set('search', search);
+      Object.entries(overrides).forEach(([k, v]) => p.set(k, v));
+      return `/birds?${p.toString()}`;
+    },
+    [family, conservationStatus, search],
+  );
 
-  // Build filter param map for pagination/view-toggle links
-  const filterParams: Record<string, string> = {};
-  if (family) filterParams.family = family;
-  if (conservationStatus) filterParams.conservationStatus = conservationStatus;
-  if (search) filterParams.search = search;
-  if (view !== 'grid') filterParams.view = view;
-
-  const statuses = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
+  const hasFilters = family || conservationStatus || search;
 
   return (
     <div className="bg-mos-surface min-h-screen pt-20">
@@ -190,8 +171,7 @@ export default async function BirdsPage({
       <div className="max-w-7xl mx-auto px-8 py-12">
         {/* ── Filter Bar ── */}
         <form
-          method="GET"
-          action="/birds"
+          onSubmit={handleSubmit}
           className="flex flex-wrap items-end gap-4 mb-12 p-6 bg-white border border-mos-border/30 rounded-2xl shadow-sm"
         >
           <div className="flex-1 min-w-[200px]">
@@ -217,7 +197,7 @@ export default async function BirdsPage({
               className="w-full px-4 py-2.5 rounded-xl border border-mos-border/30 bg-mos-surface text-sm font-[Manrope,sans-serif] text-mos-text focus:outline-none focus:ring-2 focus:ring-mos-navy/10 focus:border-mos-navy/30 transition-all appearance-none"
             >
               <option value="">All Families</option>
-              {families.map((f) => (
+              {families.map((f: string) => (
                 <option key={f} value={f}>{f}</option>
               ))}
             </select>
@@ -246,81 +226,101 @@ export default async function BirdsPage({
             >
               Filter
             </button>
-            <Link
-              href="/birds"
-              className="px-4 py-2.5 border border-mos-border/30 text-mos-muted rounded-xl text-sm font-[Manrope,sans-serif] hover:bg-mos-surface transition-all"
-            >
-              Clear
-            </Link>
+            {hasFilters && (
+              <Link
+                href="/birds"
+                className="px-4 py-2.5 border border-mos-border/30 text-mos-muted rounded-xl text-sm font-[Manrope,sans-serif] hover:bg-mos-surface transition-all"
+              >
+                Clear
+              </Link>
+            )}
           </div>
         </form>
 
         {/* ── Results ── */}
-        {birdData.birds.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-24">
+            <span className="material-symbols-outlined text-4xl text-mos-navy/20 animate-spin">progress_activity</span>
+          </div>
+        ) : birds.length > 0 ? (
           <>
             <div className="flex items-center justify-between mb-6">
               <p className="text-sm text-mos-muted font-[Manrope,sans-serif]">
-                Showing {birdData.birds.length} of {birdData.pagination.total} species
+                Showing {birds.length} of {pagination.total} species
               </p>
 
-              {/* View toggle */}
               <div className="flex items-center gap-1 bg-white border border-mos-border/30 rounded-xl p-1 shadow-sm">
-                <Link
-                  href={buildFilterUrl(filterParams, { view: 'grid' })}
+                <button
+                  onClick={() => setParam('view', 'grid')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
-                    view === 'grid'
-                      ? 'bg-mos-navy text-white shadow-sm'
-                      : 'text-mos-muted hover:text-mos-navy'
+                    view === 'grid' ? 'bg-mos-navy text-white shadow-sm' : 'text-mos-muted hover:text-mos-navy'
                   }`}
                 >
                   <span className="material-symbols-outlined text-sm">grid_view</span>
                   Grid
-                </Link>
-                <Link
-                  href={buildFilterUrl(filterParams, { view: 'map' })}
+                </button>
+                <button
+                  onClick={() => setParam('view', 'map')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
-                    view === 'map'
-                      ? 'bg-mos-navy text-white shadow-sm'
-                      : 'text-mos-muted hover:text-mos-navy'
+                    view === 'map' ? 'bg-mos-navy text-white shadow-sm' : 'text-mos-muted hover:text-mos-navy'
                   }`}
                 >
                   <span className="material-symbols-outlined text-sm">map</span>
                   Map
-                </Link>
+                </button>
               </div>
             </div>
 
             {view === 'map' ? (
               <div className="mb-8">
                 <BirdMap
-                  locations={birdData.birds
+                  locations={birds
                     .filter((b) => b.latitude && b.longitude)
                     .map((b) => ({ lat: b.latitude!, lng: b.longitude!, name: b.commonName, slug: b.slug }))}
                   className="w-full h-[550px] rounded-2xl"
                   zoom={4}
                 />
-                {birdData.birds.filter((b) => b.latitude && b.longitude).length < birdData.birds.length && (
+                {birds.filter((b) => b.latitude && b.longitude).length < birds.length && (
                   <p className="text-xs text-mos-muted font-[Manrope,sans-serif] mt-2 text-center">
-                    {birdData.birds.filter((b) => b.latitude && b.longitude).length} of{' '}
-                    {birdData.birds.length} species have location data
+                    {birds.filter((b) => b.latitude && b.longitude).length} of{' '}
+                    {birds.length} species have location data
                   </p>
                 )}
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {birdData.birds.map((bird) => (
+                {birds.map((bird) => (
                   <BirdCard key={bird.id} bird={bird} />
                 ))}
               </div>
             )}
 
-            {birdData.pagination.pageCount > 1 && (
-              <Pagination
-                current={birdData.pagination.page}
-                total={birdData.pagination.total}
-                pageCount={birdData.pagination.pageCount}
-                filterParams={filterParams}
-              />
+            {pagination.pageCount > 1 && (
+              <div className="flex items-center justify-center gap-4 pt-12">
+                {page > 1 && (
+                  <button
+                    onClick={() => setParam('page', String(page - 1))}
+                    className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity"
+                  >
+                    <span className="material-symbols-outlined text-base">arrow_back</span>
+                    Previous
+                  </button>
+                )}
+                <span className="text-sm text-mos-muted font-[Manrope,sans-serif]">
+                  Page {pagination.page} of {pagination.pageCount}
+                  <span className="mx-2">&middot;</span>
+                  {pagination.total} species
+                </span>
+                {page < pagination.pageCount && (
+                  <button
+                    onClick={() => setParam('page', String(page + 1))}
+                    className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity"
+                  >
+                    Next
+                    <span className="material-symbols-outlined text-base">arrow_forward</span>
+                  </button>
+                )}
+              </div>
             )}
           </>
         ) : (
@@ -330,11 +330,11 @@ export default async function BirdsPage({
               No species found
             </h2>
             <p className="text-mos-muted font-[Manrope,sans-serif] text-sm max-w-md mx-auto">
-              {search || family || conservationStatus
+              {hasFilters
                 ? 'Try adjusting your filters or search terms.'
                 : 'The bird database is being populated. Check back soon.'}
             </p>
-            {(search || family || conservationStatus) && (
+            {hasFilters && (
               <Link
                 href="/birds"
                 className="inline-block mt-6 px-6 py-3 bg-mos-navy text-white rounded-full text-sm font-bold font-[Manrope,sans-serif] hover:opacity-90 transition-all"

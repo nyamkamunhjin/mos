@@ -1,14 +1,15 @@
+'use client';
+
+import { use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getBirdBySlug, getAllBirdSlugs, getStrapiMediaUrl } from '@/lib/strapi';
-import type { Metadata } from 'next';
-import type { StrapiBird } from '@/lib/types/bird';
+import { getStrapiMediaUrl } from '@/lib/strapi';
+import { useBird } from '@/lib/api/birds';
 import { STATUS_LABELS, STATUS_COLORS } from '@/lib/status';
 import ImageGallery from '@/app/components/birds/ImageGallery';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
 
-export const revalidate = 3600;
+const statuses = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
 
 function SectionEyebrow({ text }: { text: string }) {
   return (
@@ -63,45 +64,47 @@ function AudioPlayer({ url }: { url: string }) {
   );
 }
 
-
-export async function generateStaticParams() {
-  const slugs = await getAllBirdSlugs().catch(() => []);
-  return slugs.map((slug) => ({ slug }));
+function BirdDetailSkeleton() {
+  return (
+    <div className="bg-mos-surface min-h-screen pt-20">
+      <div className="h-[420px] md:h-[520px] bg-mos-periwinkle/20 animate-pulse" />
+      <div className="max-w-7xl mx-auto px-8 py-12 space-y-8">
+        <div className="h-8 w-64 bg-mos-border/20 rounded animate-pulse" />
+        <div className="h-4 w-96 bg-mos-border/20 rounded animate-pulse" />
+        <div className="h-4 w-full bg-mos-border/20 rounded animate-pulse" />
+        <div className="h-4 w-3/4 bg-mos-border/20 rounded animate-pulse" />
+      </div>
+    </div>
+  );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const bird = await getBirdBySlug(slug);
-  if (!bird) return { title: 'Species Not Found' };
-
-  const heroUrl = bird.images[0] ? getStrapiMediaUrl(bird.images[0]) : undefined;
-  const desc = bird.description
-    ? bird.description.replace(/<[^>]*>/g, '').slice(0, 160)
-    : `${bird.commonName} (${bird.scientificName}) — species profile, habitat, identification, and conservation status in Mongolia.`;
-
-  return {
-    title: `${bird.commonName} (${bird.scientificName})`,
-    description: desc,
-    openGraph: {
-      title: `${bird.commonName} (${bird.scientificName})`,
-      description: desc,
-      images: heroUrl ? [{ url: heroUrl, alt: bird.commonName }] : [],
-    },
-  };
-}
-
-export default async function BirdDetailPage({
+export default function BirdDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  const bird = await getBirdBySlug(slug);
-  if (!bird) notFound();
+  const { slug } = use(params);
+  const { bird, isLoading, isError } = useBird(slug);
+
+  if (isLoading) return <BirdDetailSkeleton />;
+  if (isError || !bird) {
+    return (
+      <div className="bg-mos-surface min-h-screen pt-20 flex items-center justify-center">
+        <div className="text-center py-24">
+          <span className="material-symbols-outlined text-6xl text-mos-navy/10 block mb-4">raven</span>
+          <h2 className="font-[Newsreader,serif] text-2xl text-mos-navy font-semibold mb-2">
+            Species not found
+          </h2>
+          <Link
+            href="/birds"
+            className="inline-block mt-6 px-6 py-3 bg-mos-navy text-white rounded-full text-sm font-bold font-[Manrope,sans-serif] hover:opacity-90 transition-all"
+          >
+            View all species
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const heroImg = getStrapiMediaUrl(bird.images[0], 'large');
   const audioUrl = getStrapiMediaUrl(bird.audioCall);
@@ -180,12 +183,8 @@ export default async function BirdDetailPage({
 
       {/* ── Content ── */}
       <div className="max-w-7xl mx-auto px-8">
-        {/* Description */}
         <RichTextBlock title="Description" content={bird.description} />
-
         <div className="w-full h-px bg-mos-border/20" />
-
-        {/* Identification */}
         <RichTextBlock title="Identification" content={bird.identification} />
 
         {bird.habitat && (

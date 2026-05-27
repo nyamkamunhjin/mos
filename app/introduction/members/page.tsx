@@ -1,83 +1,21 @@
 import Image from 'next/image';
+import { getMembers, getStrapiMediaUrl } from '@/lib/strapi';
+import type { StrapiMember } from '@/lib/types/member';
 
-const members = [
-  {
-    name: "Dr. S. Gombobaatar",
-    title: "Founder & Director",
-    imageUrl: "/Gombobaatar.JPG",
-    role: 'Founder',
-    bio: "One of the founders of the Society in 1999. Since then, he has been extensively dealing with activities on bird research, conservation, and international collaborations for the Society. He is also head of the Laboratory of Ornithology at the National University of Mongolia. Gomboo wrote his master thesis on Cranes of Mongolia in 1996 and Ph.D. thesis on Saker Falcon in Mongolia in 2006. He has been supervising and coordinating all projects and research works of the Society, and supervising theses of B.Sc., MSc., Ph.D students at his Laboratory.",
-  },
-  {
-    name: "Ch. Uuganbayar MSc.",
-    title: "Board Member",
-    imageUrl: "/members/Uuganbayar_Last.jpg",
-    role: 'Board Member',
-    bio: "One of the pioneer members of the society. His bachelor and master thesis were written on the diet composition of Sakers in Central Mongolia. Since 2002, Uugan has been working at the Biology Department of Mongolian State University of Agriculture. He successfully organized several birding and ornithological expeditions in Eastern Mongolia.",
-  },
-  {
-    name: "D. Usukhjargal MSc.",
-    title: "Board Member",
-    imageUrl: "/members/Usukhuu.jpg",
-    role: 'Board Member',
-    bio: "He has been working at Hustai Nuruu National Park as a Takhi biologist since 2003. He is one of the experts on birds in the areas. He completed his master thesis on Reed Deer in Hustai Nuruu National Park. Now he is studying doctorate training at the National University of Mongolia.",
-  },
-  {
-    name: "P. Amartuvshin MSc.",
-    title: "Board Member",
-    imageUrl: "/placeholder.svg",
-    role: 'Board Member',
-    bio: "He is one of the researchers of the Society. Amaraa wrote his master thesis on Impacts of power lines on bird mortality in 2010. He has participated in research projects on Regional Red List of Birds, risk assessments of high power electric lines, and Important Bird Areas surveys. He has been guiding the Society's birding tours since 2009.",
-  },
-  {
-    name: "B. Odkhuu MSc.",
-    title: "Ornithologist",
-    imageUrl: "/placeholder.svg",
-    role: 'Researcher',
-    bio: "Ornithologist at Chinggis Khaan International Airport, working to reduce bird and aircraft strike hazards since 2008. He wrote his bachelor thesis on Saker falcon's sex and age identification and master thesis on biological surveys of upland buzzard. He is interested in studying urban birds and raptors.",
-  },
-  {
-    name: "B. Gantulga Dr.",
-    title: "Researcher",
-    imageUrl: "/placeholder.svg",
-    role: 'Researcher',
-    bio: "Received his bachelor and master degree from the National University of Mongolia. His master thesis was on breeding success of Azure-winged magpie. He has been a member of the Mongolian Ornithological Society since 2005 and is well experienced in field study and birding.",
-  },
-  {
-    name: "O. Soronzonbold MSc.",
-    title: "Young Member",
-    imageUrl: "/placeholder.svg",
-    role: 'Researcher',
-    bio: "One of the young members of the society. He participates in Pallas's fish eagle and Saker surveys, helps organise conferences and workshops. He's interested in studying conservation genetics and biology of birds and wildlife in Mongolia.",
-  },
-  {
-    name: "B. Yumjirmaa",
-    title: "Member",
-    imageUrl: "/members/yuki.jpg",
-    role: 'Researcher',
-    bio: "Graduated from the National University of Mongolia majoring in Ecology and Nature Conservation. She has been a member of the Society since 2009 and has actively participated in conferences, workshops and birding trips.",
-  },
-  {
-    name: "U. Tuvshin",
-    title: "Researcher",
-    imageUrl: "/members/tuvshin.jpg",
-    role: 'Researcher',
-    bio: "Graduated from Eco-Asia Institute's Ecology & Conservation class. His research work includes observation of birds in the Avian Influenza Mongolia Project, Great Bustard's migration, and water birds migration studies.",
-  },
-  {
-    name: "E. Unurjargal",
-    title: "Young Member",
-    imageUrl: "/placeholder.svg",
-    role: 'Researcher',
-    bio: "One of the young members of the society. She graduated from the National University of Mongolia's Ecotourism Management class. She participates in bird watching tours and helps organize conferences and workshops.",
-  },
-];
+export const revalidate = 3600;
 
-const leadership = members.slice(0, 1);
-const boardMembers = members.slice(1, 4);
-const otherMembers = members.slice(4);
+export default async function MembersPage() {
+  let members: StrapiMember[] = [];
+  try {
+    members = await getMembers();
+  } catch {
+    // Strapi unavailable — render empty
+  }
 
-export default function MembersPage() {
+  const leadership = members.filter((m) => m.group === 'leadership').sort((a, b) => a.sortOrder - b.sortOrder);
+  const boardMembers = members.filter((m) => m.group === 'board').sort((a, b) => a.sortOrder - b.sortOrder);
+  const otherMembers = members.filter((m) => m.group === 'other').sort((a, b) => a.sortOrder - b.sortOrder);
+
   return (
     <div className="bg-mos-surface">
       {/* ── Hero ── */}
@@ -126,13 +64,21 @@ export default function MembersPage() {
               >
                 <div className="md:col-span-2">
                   <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-lg">
-                    <Image
-                      src={member.imageUrl}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 40vw"
-                    />
+                    {member.image ? (
+                      <Image
+                        src={getStrapiMediaUrl(member.image)!}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 40vw"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-mos-periwinkle/20">
+                        <span className="font-[Newsreader,serif] text-7xl text-mos-navy/10 font-bold select-none">
+                          {member.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   </div>
                 </div>
@@ -175,9 +121,9 @@ export default function MembersPage() {
                 className="group bg-white border border-mos-border/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500"
               >
                 <div className="aspect-[4/5] relative overflow-hidden bg-mos-periwinkle/20">
-                  {member.imageUrl !== '/placeholder.svg' ? (
+                  {member.image ? (
                     <Image
-                      src={member.imageUrl}
+                      src={getStrapiMediaUrl(member.image)!}
                       alt={member.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -229,9 +175,9 @@ export default function MembersPage() {
               >
                 <div className="flex items-start gap-5 mb-5">
                   <div className="relative w-16 h-16 rounded-full overflow-hidden bg-mos-periwinkle/30 flex-shrink-0 ring-2 ring-mos-periwinkle/40 group-hover:ring-mos-navy/15 transition-all">
-                    {member.imageUrl !== '/placeholder.svg' ? (
+                    {member.image ? (
                       <Image
-                        src={member.imageUrl}
+                        src={getStrapiMediaUrl(member.image, 'thumbnail')!}
                         alt={member.name}
                         fill
                         className="object-cover"

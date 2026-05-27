@@ -6,6 +6,7 @@ import type {
   StrapiFamily,
   BirdFilters,
 } from './types/bird';
+import type { StrapiMember } from './types/member';
 
 const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
@@ -132,6 +133,15 @@ export async function getFamilies(): Promise<string[]> {
     'pagination[pageSize]': '100',
   });
   return res.data.map((item) => item.name);
+}
+
+export async function getMembers(): Promise<StrapiMember[]> {
+  const res = await fetchAPI<StrapiCollectionResponse<StrapiMember>>('/members', {
+    sort: 'sortOrder:asc',
+    'pagination[pageSize]': '100',
+    populate: 'image',
+  });
+  return res.data;
 }
 
 export function getStrapiMediaUrl(

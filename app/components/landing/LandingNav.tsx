@@ -84,22 +84,19 @@ export function LandingNav() {
           }`}>
             Blog News
           </Link>
+        </div>
+
+        <div className="flex items-center gap-3 sm:gap-6">
           <Link
             href="/donate"
-            className={`text-sm font-bold tracking-wide transition-colors ${
-              scrolled ? 'text-[#ffdbcd] hover:text-white' : 'text-[#4a1800] hover:text-mos-accent'
+            className={`hidden sm:inline-block px-6 lg:px-8 py-2 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md ${
+              scrolled
+                ? 'bg-white/15 text-white hover:bg-white/25'
+                : 'bg-[#1a368d] text-white hover:opacity-90'
             }`}
           >
             Donate
           </Link>
-        </div>
-
-        <div className="flex items-center gap-3 sm:gap-6">
-          <button className={`transition-colors ${
-            scrolled ? 'text-white hover:text-[#001f6e]' : 'text-mos-navy/60 hover:text-mos-navy'
-          }`}>
-            <span className="material-symbols-outlined text-2xl sm:text-base">search</span>
-          </button>
 
           {/* Hamburger */}
           <button
@@ -156,14 +153,15 @@ export function LandingNav() {
               >
                 Blog News
               </Link>
-              <hr className="border-white/10 my-4" />
-              <Link
-                href="/donate"
-                className="block text-[#ffdbcd] hover:text-white text-sm font-bold py-2 font-[Manrope,sans-serif]"
-                onClick={() => setMenuOpen(false)}
-              >
-                Donate
-              </Link>
+              <div className="mt-6">
+                <Link
+                  href="/donate"
+                  className="block w-full bg-[#1a368d] text-white py-3 rounded-full font-bold text-sm text-center hover:opacity-90 active:scale-95 transition-all shadow-md"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Donate
+                </Link>
+              </div>
             </div>
           </div>
         </div>

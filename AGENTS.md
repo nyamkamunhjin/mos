@@ -1,34 +1,90 @@
+## repos
+
+Two repos in `../mos/`:
+- `mos-frontend` — Next.js 16 App Router + React 19 + Tailwind v4 + shadcn/ui
+- `mos-api` — Strapi 5 CMS (SQLite default; Strapi Cloud in prod)
+
+Frontend fetches bird data from Strapi via REST API (`lib/strapi.ts`).
+
+## setup
+
+### mos-frontend
+```
+npm install
+npm run dev        # localhost:3000
+npm run build      # static + SSG + dynamic routes
+npm run lint       # ESLint flat config
+```
+Env vars (`.env.local`):
+```
+STRAPI_URL=<strapi-cloud-url>
+STRAPI_API_TOKEN=<full-access-token>
+```
+
+### mos-api
+```
+npm install
+cp .env.example .env   # generate fresh APP_KEYS/JWT_SECRET/SALTS
+npm run develop         # localhost:1337/admin — create admin on first visit
+npm run seed:example    # optional: loads placeholder blog seed data
+npm run build           # admin panel build
+```
+API runs on port 1337. DB at `.tmp/data.db` (SQLite). Create content types in Admin → Content-Type Builder.
+
+## routes (mos-frontend)
+
+```
+/                          → landing page (9 section components)
+/introduction/overview     → MOS overview, research projects, partners
+/introduction/message      → Director's letter
+/introduction/members      → team bios
+/birds                     → Strapi bird listing (search, family, status filters)
+/birds/[slug]              → species detail page
+```
+
+## data flow
+
+- `lib/strapi.ts` — REST client using native `fetch`, ISR (`revalidate: 3600`), Strapi v5 flat format
+- `lib/types/bird.ts` — `StrapiBird`, `StrapiMedia`, `StrapiFamily`, `BirdFilters`
+- `/birds` is dynamic (searchParams), `/birds/[slug]` is SSG via `generateStaticParams`
+- No Bird/Family content types exist in mos-api yet — frontend types are ahead of backend
+
 ## design
 
-This project uses an editorial/magazine aesthetic for the Mongolian Ornithological Society.
+Editorial/magazine aesthetic.
 
-**MOS Brand Palette** (defined in `app/globals.css` via `@theme`):
-- `mos-navy` (`#001f6e`) — primary title, buttons, hero overlays
-- `mos-blue` (`#1a368d`) — secondary accent, numbers
-- `mos-accent` (`#4a1800`) — burnt umber for section labels
-- `mos-surface` (`#faf8ff`) — warm off-white page background
-- `mos-section` (`#f4f2fb`) — alternate section background
-- `mos-periwinkle` (`#dce1ff`) — decorative blur orbs
+**Palette** (Tailwind v4 `@theme` in `globals.css`):
+- `mos-navy` `#001f6e` — titles, buttons, hero overlays
+- `mos-blue` `#1a368d` — secondary accent
+- `mos-accent` `#4a1800` — burnt umber section labels
+- `mos-surface` `#faf8ff` — page background
+- `mos-section` `#f4f2fb` — alternate bg
+- `mos-periwinkle` `#dce1ff` — decorative blur orbs
+- `mos-text` `#1a1b21`, `mos-muted` `#444652`, `mos-border` `#c5c5d4`
 
-**Typography**: Newsreader (serif) for headings, Manrope (sans-serif) for body.
+**Typography**: Newsreader (serif) for headings, Manrope (sans-serif) for body. Loaded via `<link>` in `layout.tsx` (Google Fonts).
 
 **Patterns**:
-- `py-24 md:py-28` — generous vertical rhythm
-- Blur orbs (`rounded-full blur-3xl opacity-[0.05]`) for depth
-- Alternating `bg-mos-surface` / `bg-mos-section` between sections
-- `rounded-2xl` cards with `border-mos-border/30` and subtle shadows
-- `tracking-widest text-xs uppercase font-bold` for section eybrows
-- Fixed nav with `bg-black/20 backdrop-blur-sm` — mobile has a slide-in panel from the right with `w-80 max-w-[85vw]`
+- `py-24 md:py-28` vertical rhythm
+- Alternating `bg-mos-surface` / `bg-mos-section`
+- Blur orbs (`rounded-full blur-3xl opacity-[0.05]`)
+- `rounded-2xl` cards with `border-mos-border/30`
+- `tracking-widest text-xs uppercase font-bold` section eyebrows (accent color)
+- Fixed nav `bg-black/20 backdrop-blur-sm`, mobile slide-in from right `w-80`
 
 ## graphify
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+Knowledge graph at `graphify-out/`. Run `graphify update .` after edits.
+When user types `/graphify`, invoke skill before anything else.
+Use `graphify query "..."`, `graphify path "A" "B"`, `graphify explain "..."`.
+Read `graphify-out/wiki/index.md` for navigation, `GRAPH_REPORT.md` for architecture.
 
-When the user types `/graphify`, invoke the `skill` tool with `skill: "graphify"` before doing anything else.
+## key facts
 
-Rules:
-- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- Dirty graphify-out/ files are expected after hooks or incremental updates; dirty graph files are not a reason to skip graphify. Only skip graphify if the task is about stale or incorrect graph output, or the user explicitly says not to use it.
-- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
-- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
-- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- Font `[Newsreader,serif]` and `[Manrope,sans-serif]` referenced via inline `font-*` classes directly
+- `import Image from 'next/image'` — all remote hosts allowed in `next.config.mjs`
+- Path alias `@/*` maps to root
+- shadcn/ui components in `components/ui/`. Add with `npx shadcn@latest add <name>`
+- Mobile images use `aspect-[3/4]` for portrait member photos
+- Bird placeholder images in `public/birds/`, landing images in `public/test-landing/`
+- `public/members/` has 10 member photos; profiles w/o photos use placeholder.svg

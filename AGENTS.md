@@ -41,6 +41,7 @@ API runs on port 1337. DB at `.tmp/data.db` (SQLite). Create content types in Ad
 /introduction/members      → team bios
 /birds                     → Strapi bird listing (search, family, status filters)
 /birds/[slug]              → species detail page
+/donate                    → donation appeal, bank details, contact form
 ```
 
 ## data flow

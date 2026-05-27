@@ -84,6 +84,14 @@ export function LandingNav() {
           }`}>
             Blog News
           </Link>
+          <Link
+            href="/donate"
+            className={`text-sm font-bold tracking-wide transition-colors ${
+              scrolled ? 'text-[#ffdbcd] hover:text-white' : 'text-[#4a1800] hover:text-mos-accent'
+            }`}
+          >
+            Donate
+          </Link>
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
@@ -91,9 +99,6 @@ export function LandingNav() {
             scrolled ? 'text-white hover:text-[#001f6e]' : 'text-mos-navy/60 hover:text-mos-navy'
           }`}>
             <span className="material-symbols-outlined text-2xl sm:text-base">search</span>
-          </button>
-          <button className="hidden sm:inline-block bg-[#1a368d] text-white px-6 lg:px-8 py-2 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
-            Donate
           </button>
 
           {/* Hamburger */}
@@ -151,11 +156,14 @@ export function LandingNav() {
               >
                 Blog News
               </Link>
-              <div className="mt-6">
-                <button className="w-full bg-[#1a368d] text-white py-3 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
-                  Donate
-                </button>
-              </div>
+              <hr className="border-white/10 my-4" />
+              <Link
+                href="/donate"
+                className="block text-[#ffdbcd] hover:text-white text-sm font-bold py-2 font-[Manrope,sans-serif]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Donate
+              </Link>
             </div>
           </div>
         </div>

@@ -67,8 +67,6 @@ function normalize(bird: StrapiBird, depth = 0): StrapiBird {
   };
 }
 
-const DEFAULT_POPULATE = 'populate=images&populate=audioCall&populate=family';
-
 export async function getBirds(
   filters?: BirdFilters,
 ): Promise<{ birds: StrapiBird[]; pagination: StrapiPagination }> {
@@ -112,11 +110,20 @@ export async function getBirdBySlug(slug: string): Promise<StrapiBird | null> {
 }
 
 export async function getAllBirdSlugs(): Promise<string[]> {
-  const res = await fetchAPI<StrapiCollectionResponse<Pick<StrapiBird, 'slug'>>>('/birds', {
-    fields: 'slug',
-    'pagination[pageSize]': '100',
-  });
-  return res.data.map((item) => item.slug).filter(Boolean);
+  const allSlugs: string[] = [];
+  let page = 1;
+  let pageCount = 1;
+  while (page <= pageCount) {
+    const res = await fetchAPI<StrapiCollectionResponse<Pick<StrapiBird, 'slug'>>>('/birds', {
+      fields: 'slug',
+      'pagination[page]': String(page),
+      'pagination[pageSize]': '100',
+    });
+    allSlugs.push(...res.data.map((item) => item.slug).filter(Boolean));
+    pageCount = res.meta.pagination.pageCount;
+    page++;
+  }
+  return allSlugs;
 }
 
 export async function getFamilies(): Promise<string[]> {

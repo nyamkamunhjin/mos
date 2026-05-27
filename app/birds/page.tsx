@@ -3,17 +3,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getBirds, getFamilies, getStrapiMediaUrl } from '@/lib/strapi';
 import type { StrapiBird } from '@/lib/types/bird';
+import { STATUS_COLORS } from '@/lib/status';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
-
-const STATUS_COLORS: Record<string, string> = {
-  LC: 'bg-green-100 text-green-800',
-  NT: 'bg-yellow-100 text-yellow-800',
-  VU: 'bg-orange-100 text-orange-800',
-  EN: 'bg-red-100 text-red-800',
-  CR: 'bg-rose-100 text-rose-800',
-  EW: 'bg-gray-200 text-gray-700',
-  EX: 'bg-gray-300 text-gray-600',
-};
 
 function BirdCard({ bird }: { bird: StrapiBird }) {
   const imgUrl = getStrapiMediaUrl(bird.images[0], 'small');
@@ -76,20 +67,27 @@ function BirdCard({ bird }: { bird: StrapiBird }) {
   );
 }
 
+function buildFilterUrl(baseParams: Record<string, string>, overrides: Record<string, string>): string {
+  const merged: Record<string, string> = {};
+  for (const [k, v] of Object.entries(baseParams)) {
+    if (typeof v === 'string') merged[k] = v;
+  }
+  Object.assign(merged, overrides);
+  return `/birds?${new URLSearchParams(merged).toString()}`;
+}
+
 function Pagination({
   current,
   total,
   pageCount,
+  filterParams,
 }: {
   current: number;
   total: number;
   pageCount: number;
+  filterParams: Record<string, string>;
 }) {
-  const buildHref = (page: number) => {
-    const params = new URLSearchParams();
-    params.set('page', String(page));
-    return `/birds?${params.toString()}`;
-  };
+  const buildHref = (page: number) => buildFilterUrl(filterParams, { page: String(page) });
 
   return (
     <div className="flex items-center justify-center gap-4 pt-12">
@@ -121,7 +119,6 @@ function Pagination({
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { birds } = await getBirds({ pageSize: 1 });
   return {
     title: 'Birds of Mongolia — Species Database',
     description:
@@ -139,18 +136,25 @@ export default async function BirdsPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const params = await searchParams;
-  const page = Number(params.page) || 1;
-  const family = typeof params.family === 'string' ? params.family : undefined;
+  const rawParams = await searchParams;
+  const page = Number(rawParams.page) || 1;
+  const family = typeof rawParams.family === 'string' ? rawParams.family : undefined;
   const conservationStatus =
-    typeof params.conservationStatus === 'string' ? params.conservationStatus : undefined;
-  const search = typeof params.search === 'string' ? params.search : undefined;
-  const view = typeof params.view === 'string' ? params.view : 'grid';
+    typeof rawParams.conservationStatus === 'string' ? rawParams.conservationStatus : undefined;
+  const search = typeof rawParams.search === 'string' ? rawParams.search : undefined;
+  const view = typeof rawParams.view === 'string' ? rawParams.view : 'grid';
 
   const [birdData, families] = await Promise.all([
-    getBirds({ page, family, conservationStatus, search, pageSize: 24 }),
+    getBirds({ page, family, conservationStatus, search, pageSize: 24 }).catch(() => ({ birds: [] as StrapiBird[], pagination: { page: 1, pageSize: 24, pageCount: 1, total: 0 } })),
     getFamilies().catch(() => []),
   ]);
+
+  // Build filter param map for pagination/view-toggle links
+  const filterParams: Record<string, string> = {};
+  if (family) filterParams.family = family;
+  if (conservationStatus) filterParams.conservationStatus = conservationStatus;
+  if (search) filterParams.search = search;
+  if (view !== 'grid') filterParams.view = view;
 
   const statuses = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
 
@@ -262,7 +266,7 @@ export default async function BirdsPage({
               {/* View toggle */}
               <div className="flex items-center gap-1 bg-white border border-mos-border/30 rounded-xl p-1 shadow-sm">
                 <Link
-                  href={`/birds?${new URLSearchParams({ ...Object.fromEntries(Object.entries({ ...params }).filter(([k]) => k !== 'view')), view: 'grid' } as Record<string, string>).toString()}`}
+                  href={buildFilterUrl(filterParams, { view: 'grid' })}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
                     view === 'grid'
                       ? 'bg-mos-navy text-white shadow-sm'
@@ -273,7 +277,7 @@ export default async function BirdsPage({
                   Grid
                 </Link>
                 <Link
-                  href={`/birds?${new URLSearchParams({ ...Object.fromEntries(Object.entries({ ...params }).filter(([k]) => k !== 'view')), view: 'map' } as Record<string, string>).toString()}`}
+                  href={buildFilterUrl(filterParams, { view: 'map' })}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
                     view === 'map'
                       ? 'bg-mos-navy text-white shadow-sm'
@@ -315,6 +319,7 @@ export default async function BirdsPage({
                 current={birdData.pagination.page}
                 total={birdData.pagination.total}
                 pageCount={birdData.pagination.pageCount}
+                filterParams={filterParams}
               />
             )}
           </>

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getBirdBySlug, getAllBirdSlugs, getStrapiMediaUrl } from '@/lib/strapi';
 import type { Metadata } from 'next';
 import type { StrapiBird } from '@/lib/types/bird';
+import ImageGallery from '@/app/components/birds/ImageGallery';
 
 const STATUS_LABELS: Record<string, string> = {
   LC: 'Least Concern',
@@ -78,42 +79,6 @@ function AudioPlayer({ url }: { url: string }) {
   );
 }
 
-function ImageGallery({ images }: { images: StrapiBird['images'] }) {
-  if (!images.length) return null;
-  return (
-    <section className="py-16 md:py-20 bg-mos-section">
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="max-w-3xl mb-12">
-          <SectionEyebrow text="Media" />
-          <h2 className="font-[Newsreader,serif] text-3xl md:text-4xl text-mos-navy font-semibold leading-tight">
-            Photo Gallery
-          </h2>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {images.map((img, i) => {
-            const url = getStrapiMediaUrl(img, 'medium');
-            if (!url) return null;
-            return (
-              <div
-                key={img.id}
-                className="relative aspect-[4/3] rounded-xl overflow-hidden bg-mos-periwinkle/20 group"
-              >
-                <Image
-                  src={url}
-                  alt={img.alternativeText || `Photo ${i + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  quality={85}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export async function generateStaticParams() {
   const slugs = await getAllBirdSlugs().catch(() => []);

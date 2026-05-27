@@ -132,7 +132,7 @@ export default function MembersPage() {
                 className="grid md:grid-cols-5 gap-8 md:gap-12 items-start"
               >
                 <div className="md:col-span-2">
-                  <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-lg border border-white/60">
+                  <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-lg">
                     <Image
                       src={member.imageUrl}
                       alt={member.name}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { LandingNav } from '@/app/components/landing/LandingNav';
 import { LandingFooter } from '@/app/components/landing/LandingFooter';
+import PageTransition from '@/app/components/PageTransition';
 
 export const metadata: Metadata = {
     title: {
@@ -35,7 +36,7 @@ export default function RootLayout({
             <body className="antialiased">
                 <div className="bg-[#faf8ff] font-[Manrope,sans-serif] text-[#1a1b21] selection:bg-[#cdd5ff] selection:text-[#535c7f]">
                     <LandingNav />
-                    {children}
+                    <PageTransition>{children}</PageTransition>
                     <LandingFooter />
                 </div>
             </body>

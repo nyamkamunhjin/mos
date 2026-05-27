@@ -10,10 +10,11 @@ Frontend fetches bird data from Strapi via REST API (`lib/strapi.ts`).
 
 ### mos-frontend
 ```
-npm install
-npm run dev        # localhost:3000
-npm run build      # static + SSG + dynamic routes
-npm run lint       # ESLint flat config
+pnpm install
+pnpm dev           # localhost:3000
+pnpm build         # static + SSG + dynamic routes
+pnpm lint          # ESLint flat config
+pnpm add <pkg>     # install (pnpm, not npm)
 ```
 Env vars (`.env.local`):
 ```

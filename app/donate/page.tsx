@@ -12,7 +12,7 @@ const fadeUp = (delay = 0) => ({
 });
 
 const donationItems = [
-  { icon: 'binoculars', label: 'Used & New Optics' },
+  { icon: 'visibility', label: 'Used & New Optics' },
   { icon: 'menu_book', label: 'Used & New Books & Published Materials' },
   { icon: 'school', label: 'University Tuition Fees of Students & Members' },
   { icon: 'account_balance', label: 'Money Transfer in USD' },

@@ -74,16 +74,16 @@ export function LandingNav() {
           {navGroups.map((g) => (
             <NavDropdown key={g.label} label={g.label} active={g.active} items={g.items} dark={!scrolled} />
           ))}
-          <Link href="#" className={`text-sm font-semibold tracking-wide transition-colors ${
-            scrolled ? 'text-white/90 hover:text-white' : 'text-mos-navy/80 hover:text-mos-navy'
+          <span className={`text-sm font-semibold tracking-wide transition-colors cursor-not-allowed select-none ${
+            scrolled ? 'text-white/30' : 'text-mos-navy/30'
           }`}>
             Bird Forum
-          </Link>
-          <Link href="#" className={`text-sm font-semibold tracking-wide transition-colors ${
-            scrolled ? 'text-white/90 hover:text-white' : 'text-mos-navy/80 hover:text-mos-navy'
+          </span>
+          <span className={`text-sm font-semibold tracking-wide transition-colors cursor-not-allowed select-none ${
+            scrolled ? 'text-white/30' : 'text-mos-navy/30'
           }`}>
             Blog News
-          </Link>
+          </span>
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
@@ -125,34 +125,35 @@ export function LandingNav() {
                     {g.label}
                   </span>
                   <div className="flex flex-col gap-2">
-                    {g.items.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className="text-white/80 hover:text-white text-sm font-semibold font-[Manrope,sans-serif] transition-colors py-1"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
+                    {g.items.map((item) =>
+                      item.href === '#' ? (
+                        <span
+                          key={item.label}
+                          className="text-white/30 text-sm font-semibold font-[Manrope,sans-serif] py-1 cursor-not-allowed select-none"
+                        >
+                          {item.label}
+                        </span>
+                      ) : (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className="text-white/80 hover:text-white text-sm font-semibold font-[Manrope,sans-serif] transition-colors py-1"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ),
+                    )}
                   </div>
                 </div>
               ))}
               <hr className="border-white/10 my-4" />
-              <Link
-                href="#"
-                className="block text-white/80 hover:text-white text-sm font-semibold py-2 font-[Manrope,sans-serif]"
-                onClick={() => setMenuOpen(false)}
-              >
+              <span className="block text-white/30 text-sm font-semibold py-2 font-[Manrope,sans-serif] cursor-not-allowed select-none">
                 Bird Forum
-              </Link>
-              <Link
-                href="#"
-                className="block text-white/80 hover:text-white text-sm font-semibold py-2 font-[Manrope,sans-serif]"
-                onClick={() => setMenuOpen(false)}
-              >
+              </span>
+              <span className="block text-white/30 text-sm font-semibold py-2 font-[Manrope,sans-serif] cursor-not-allowed select-none">
                 Blog News
-              </Link>
+              </span>
               <div className="mt-6">
                 <Link
                   href="/donate"

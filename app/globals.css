@@ -28,6 +28,17 @@
   --color-chart-3: hsl(var(--chart-3));
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
+  --color-mos-navy: #001f6e;
+  --color-mos-blue: #1a368d;
+  --color-mos-accent: #4a1800;
+  --color-mos-surface: #faf8ff;
+  --color-mos-section: #f4f2fb;
+  --color-mos-text: #1a1b21;
+  --color-mos-muted: #444652;
+  --color-mos-border: #c5c5d4;
+  --color-mos-periwinkle: #dce1ff;
+  --color-mos-tag-bg: #ffdbcd;
+  --color-mos-tag-text: #f58e5f;
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);

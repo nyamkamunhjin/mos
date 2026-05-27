@@ -4,10 +4,18 @@ import { LandingNav } from '@/app/components/landing/LandingNav';
 import { LandingFooter } from '@/app/components/landing/LandingFooter';
 
 export const metadata: Metadata = {
-    title: 'Mongolian Ornithological Society',
-    description: "Mongolian Ornithological Society's website",
-    icons: {
-        icon: '/logo.png',
+    title: {
+        default: 'Mongolian Ornithological Society — MOS Mongolia',
+        template: '%s — Mongolian Ornithological Society',
+    },
+    description:
+        'Mongolian Ornithological Society (MOS) — conserving wild birds and their habitats across Mongolia through research, education, and community action since 1999.',
+    metadataBase: new URL('https://mos.mn'),
+    icons: { icon: '/logo.png' },
+    openGraph: {
+        type: 'website',
+        locale: 'en',
+        siteName: 'Mongolian Ornithological Society',
     },
 };
 

@@ -94,9 +94,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const bird = await getBirdBySlug(slug);
   if (!bird) return { title: 'Species Not Found' };
+
+  const heroUrl = bird.images[0] ? getStrapiMediaUrl(bird.images[0]) : undefined;
+  const desc = bird.description
+    ? bird.description.replace(/<[^>]*>/g, '').slice(0, 160)
+    : `${bird.commonName} (${bird.scientificName}) — species profile, habitat, identification, and conservation status in Mongolia.`;
+
   return {
-    title: `${bird.commonName} (${bird.scientificName}) — Birds of Mongolia`,
-    description: bird.description?.slice(0, 160) || `${bird.commonName} species profile.`,
+    title: `${bird.commonName} (${bird.scientificName})`,
+    description: desc,
+    openGraph: {
+      title: `${bird.commonName} (${bird.scientificName})`,
+      description: desc,
+      images: heroUrl ? [{ url: heroUrl, alt: bird.commonName }] : [],
+    },
   };
 }
 
@@ -114,6 +125,27 @@ export default async function BirdDetailPage({
 
   return (
     <div className="bg-mos-surface min-h-screen pt-20">
+      {/* ── Structured Data ── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Taxon',
+            name: bird.commonName,
+            scientificName: bird.scientificName,
+            ...(bird.mongolianName && { alternateName: bird.mongolianName }),
+            description: bird.description?.replace(/<[^>]*>/g, '').slice(0, 200),
+            ...(bird.family && { parentTaxon: { '@type': 'Taxon', name: bird.family.name } }),
+            ...(bird.conservationStatus && {
+              conservationStatus: bird.conservationStatus,
+              conservationStatusReference: bird.iucnUrl || undefined,
+            }),
+            ...(bird.images[0] && { image: getStrapiMediaUrl(bird.images[0]) }),
+          }),
+        }}
+      />
+
       {/* ── Hero ── */}
       <section className="relative h-[420px] md:h-[520px] overflow-hidden flex items-end">
         <div className="absolute inset-0 z-0 bg-mos-periwinkle/20">

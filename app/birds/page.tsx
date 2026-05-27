@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { getBirds, getFamilies, getStrapiMediaUrl } from '@/lib/strapi';
 import type { StrapiBird } from '@/lib/types/bird';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
@@ -117,6 +118,20 @@ function Pagination({
       )}
     </div>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { birds } = await getBirds({ pageSize: 1 });
+  return {
+    title: 'Birds of Mongolia — Species Database',
+    description:
+      'Explore the complete database of Mongolian bird species. Search by name, family, and conservation status. Learn about taxonomy, ecology, distribution, and conservation of birds in Mongolia.',
+    openGraph: {
+      title: 'Birds of Mongolia — Species Database',
+      description:
+        'Explore the complete database of Mongolian bird species. Search by name, family, and conservation status.',
+    },
+  };
 }
 
 export default async function BirdsPage({

@@ -200,6 +200,18 @@ export default function DonatePage() {
       <section className="pb-28 px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div {...fadeUp()}>
+            <div className="max-w-2xl mb-10">
+              <span className="text-[#001f6e] font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
+                Get Involved
+              </span>
+              <h2 className="font-[Newsreader,serif] text-4xl md:text-5xl text-[#001f6e] font-semibold leading-tight">
+                Send Us Your Details
+              </h2>
+              <p className="mt-4 text-[#6b5f4b] font-[Manrope,sans-serif] text-base leading-relaxed">
+                Please fill this short form and we&apos;ll get back to you
+                with confirmation and next steps.
+              </p>
+            </div>
 
             {submitted ? (
               <motion.div

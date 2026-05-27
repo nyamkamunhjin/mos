@@ -67,7 +67,7 @@ export function LandingFooter() {
       </div>
       <div className="max-w-7xl mx-auto border-t border-[#c5c5d4]/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-[#444652] text-sm">
-          &copy; 2024 Mongolian Ornithological Society. Dedicated to the
+          &copy; {new Date().getFullYear()} Mongolian Ornithological Society. Dedicated to the
           conservation of avian heritage.
         </p>
         <p className="text-[#757683] text-xs uppercase tracking-widest">

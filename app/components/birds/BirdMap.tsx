@@ -11,6 +11,8 @@ interface BirdLocation {
   lng: number;
   name: string;
   slug?: string;
+  imageUrl?: string | null;
+  description?: string;
 }
 
 const defaultIcon = L.divIcon({
@@ -58,18 +60,32 @@ export default function BirdMap({
         {locations.map((loc, i) => (
           <Marker key={i} position={[loc.lat, loc.lng]} icon={defaultIcon}>
             <Popup>
-              {loc.slug ? (
-                <Link
-                  href={`/birds/${loc.slug}`}
-                  className="font-[Manrope,sans-serif] text-sm font-semibold text-[#001f6e] hover:underline"
-                >
-                  {loc.name}
-                </Link>
-              ) : (
-                <span className="font-[Manrope,sans-serif] text-sm font-semibold text-[#001f6e]">
-                  {loc.name}
-                </span>
-              )}
+              <div className="min-w-[180px] max-w-[240px]">
+                {loc.imageUrl && (
+                  <img
+                    src={loc.imageUrl}
+                    alt={loc.name}
+                    className="w-full h-28 object-cover rounded-lg mb-2"
+                  />
+                )}
+                {loc.slug ? (
+                  <Link
+                    href={`/birds/${loc.slug}`}
+                    className="block font-[Manrope,sans-serif] text-sm font-bold text-[#001f6e] hover:underline leading-snug"
+                  >
+                    {loc.name}
+                  </Link>
+                ) : (
+                  <span className="block font-[Manrope,sans-serif] text-sm font-bold text-[#001f6e] leading-snug">
+                    {loc.name}
+                  </span>
+                )}
+                {loc.description && (
+                  <p className="text-[11px] text-[#666] font-[Manrope,sans-serif] mt-1 leading-relaxed line-clamp-3">
+                    {loc.description}
+                  </p>
+                )}
+              </div>
             </Popup>
           </Marker>
         ))}

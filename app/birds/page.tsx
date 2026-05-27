@@ -276,7 +276,14 @@ function BirdsPageContent() {
                 <BirdMap
                   locations={birds
                     .filter((b) => b.latitude && b.longitude)
-                    .map((b) => ({ lat: b.latitude!, lng: b.longitude!, name: b.commonName, slug: b.slug }))}
+                    .map((b) => ({
+                      lat: b.latitude!,
+                      lng: b.longitude!,
+                      name: b.commonName,
+                      slug: b.slug,
+                      imageUrl: getStrapiMediaUrl(b.images[0], 'small'),
+                      description: b.description?.replace(/<[^>]*>/g, '').slice(0, 120),
+                    }))}
                   className="w-full h-[550px] rounded-2xl"
                   zoom={4}
                 />

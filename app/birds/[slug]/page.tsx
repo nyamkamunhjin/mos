@@ -228,7 +228,14 @@ export default function BirdDetailPage({
               </p>
             </div>
             <BirdMap
-              locations={[{ lat: bird.latitude, lng: bird.longitude, name: bird.commonName, slug: bird.slug }]}
+              locations={[{
+                lat: bird.latitude,
+                lng: bird.longitude,
+                name: bird.commonName,
+                slug: bird.slug,
+                imageUrl: getStrapiMediaUrl(bird.images[0], 'small'),
+                description: bird.description?.replace(/<[^>]*>/g, '').slice(0, 120),
+              }]}
               className="w-full h-[400px]"
             />
           </div>

@@ -20,7 +20,7 @@ const navGroups = [
   {
     label: 'Birds Mongolia',
     items: [
-      { label: 'Online Guide', href: '#' },
+      { label: 'Online Guide', href: '/birds' },
       { label: 'Ornis Mongolica', href: '#' },
       { label: 'Birdlist', href: '#' },
       { label: 'Rarity', href: '#' },

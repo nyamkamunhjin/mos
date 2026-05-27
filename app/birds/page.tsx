@@ -9,6 +9,7 @@ import { useBirds, useFamilies } from '@/lib/api/birds';
 import { STATUS_COLORS } from '@/lib/status';
 import type { BirdFilters, StrapiBird } from '@/lib/types/bird';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
+import { Button } from '@/components/ui/button';
 
 export default function BirdsPage() {
   return (
@@ -207,12 +208,14 @@ function BirdsPageContent() {
           </div>
 
           {hasFilters && (
-            <Link
+            <Button
               href="/birds"
-              className="px-4 py-2.5 border border-mos-border/30 text-mos-muted rounded-xl text-sm font-[Manrope,sans-serif] hover:bg-mos-surface transition-all"
+              variant="outline"
+              shape="square"
+              className="border-mos-border/30 text-mos-muted hover:bg-mos-surface"
             >
               Clear
-            </Link>
+            </Button>
           )}
         </div>
 
@@ -229,24 +232,24 @@ function BirdsPageContent() {
               </p>
 
               <div className="flex items-center gap-1 bg-white border border-mos-border/30 rounded-xl p-1 shadow-sm">
-                <button
+                <Button
                   onClick={() => setParam('view', 'grid')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
-                    view === 'grid' ? 'bg-mos-navy text-white shadow-sm' : 'text-mos-muted hover:text-mos-navy'
-                  }`}
+                  variant="ghost"
+                  size="sm"
+                  className={`gap-1.5 rounded-lg text-xs font-bold ${view === 'grid' ? 'bg-mos-navy text-white shadow-sm hover:bg-mos-navy' : 'text-mos-muted hover:text-mos-navy'}`}
                 >
                   <span className="material-symbols-outlined text-sm">grid_view</span>
                   Grid
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => setParam('view', 'map')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
-                    view === 'map' ? 'bg-mos-navy text-white shadow-sm' : 'text-mos-muted hover:text-mos-navy'
-                  }`}
+                  variant="ghost"
+                  size="sm"
+                  className={`gap-1.5 rounded-lg text-xs font-bold ${view === 'map' ? 'bg-mos-navy text-white shadow-sm hover:bg-mos-navy' : 'text-mos-muted hover:text-mos-navy'}`}
                 >
                   <span className="material-symbols-outlined text-sm">map</span>
                   Map
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -321,12 +324,14 @@ function BirdsPageContent() {
                 : 'The bird database is being populated. Check back soon.'}
             </p>
             {hasFilters && (
-              <Link
+              <Button
                 href="/birds"
-                className="inline-block mt-6 px-6 py-3 bg-mos-navy text-white rounded-full text-sm font-bold font-[Manrope,sans-serif] hover:opacity-90 transition-all"
+                variant="default"
+                size="pill-sm"
+                className="shadow-md"
               >
                 View all species
-              </Link>
+              </Button>
             )}
           </div>
         )}

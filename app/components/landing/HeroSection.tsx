@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export function HeroSection() {
   return (
@@ -29,12 +29,9 @@ export function HeroSection() {
           Your support helps us protect Mongolia&apos;s birds and their habitats.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/donate"
-            className="bg-[#faf8ff] text-[#001f6e] px-10 py-4 rounded-full font-bold hover:bg-[#1a368d] hover:text-white transition-all active:scale-95 shadow-lg cursor-pointer"
-          >
+          <Button href="/donate" variant="outline" size="pill" className="bg-[#faf8ff] text-[#001f6e] border-0 hover:bg-[#1a368d] hover:text-white shadow-lg">
             DONATE NOW
-          </Link>
+          </Button>
           <span className="bg-white/10 border border-white/40 text-white backdrop-blur-md px-10 py-4 rounded-full font-bold cursor-default select-none">
             Learn More
           </span>

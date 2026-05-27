@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export function DiscoverBirds() {
   return (
@@ -43,12 +43,13 @@ export function DiscoverBirds() {
               {i === 2 &&
                 'Professional guided tours through the heart of the Mongolian wilderness, specifically designed for ornithologists and nature photographers.'}
             </p>
-            <Link
+            <Button
               href="/birds"
-              className="text-[#001f6e] font-bold text-xs tracking-wide hover:underline underline-offset-4 cursor-pointer"
+              variant="link"
+              className="text-xs tracking-wide"
             >
               Learn More
-            </Link>
+            </Button>
           </div>
         ))}
       </div>

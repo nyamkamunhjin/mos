@@ -90,3 +90,4 @@ Read `graphify-out/wiki/index.md` for navigation, `GRAPH_REPORT.md` for architec
 - Mobile images use `aspect-[3/4]` for portrait member photos
 - Bird placeholder images in `public/birds/`, landing images in `public/test-landing/`
 - `public/members/` has 10 member photos; profiles w/o photos use placeholder.svg
+- Use `Button` from `@/components/ui/button` for ALL interactive actions — never raw `<button>` or button-styled `<Link>`. Button supports `href` (renders as Link), `onClick`, variants (default/secondary/outline/ghost/link), sizes (default/sm/lg/icon/pill/pill-sm), and shapes (default/pill/square). Always includes `cursor-pointer`.

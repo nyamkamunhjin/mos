@@ -2,12 +2,12 @@
 
 import { use } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { getStrapiMediaUrl } from '@/lib/strapi';
 import { useBird } from '@/lib/api/birds';
 import { STATUS_LABELS, STATUS_COLORS } from '@/lib/status';
 import ImageGallery from '@/app/components/birds/ImageGallery';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
+import { Button } from '@/components/ui/button';
 
 const statuses = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
 
@@ -95,12 +95,9 @@ export default function BirdDetailPage({
           <h2 className="font-[Newsreader,serif] text-2xl text-mos-navy font-semibold mb-2">
             Species not found
           </h2>
-          <Link
-            href="/birds"
-            className="inline-block mt-6 px-6 py-3 bg-mos-navy text-white rounded-full text-sm font-bold font-[Manrope,sans-serif] hover:opacity-90 transition-all"
-          >
+          <Button href="/birds" variant="default" size="pill-sm" className="shadow-md">
             View all species
-          </Link>
+          </Button>
         </div>
       </div>
     );
@@ -283,13 +280,10 @@ export default function BirdDetailPage({
       {/* ── Back Link ── */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-8 text-center">
-          <Link
-            href="/birds"
-            className="inline-flex items-center gap-2 text-mos-navy font-bold font-[Manrope,sans-serif] text-sm hover:opacity-70 transition-opacity"
-          >
+          <Button href="/birds" variant="link" className="gap-2 text-sm">
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Back to all species
-          </Link>
+          </Button>
         </div>
       </section>
     </div>

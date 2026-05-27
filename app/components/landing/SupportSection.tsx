@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export function SupportSection() {
   return (
@@ -67,12 +68,9 @@ export function SupportSection() {
           ))}
         </div>
         <div className="mt-20 text-center">
-          <Link
-            href="/donate"
-            className="inline-block bg-white text-[#001f6e] px-14 py-5 rounded-full font-bold hover:bg-[#dce1ff] transition-all shadow-2xl active:scale-95 text-sm tracking-wider uppercase cursor-pointer"
-          >
+          <Button href="/donate" variant="outline" size="pill" className="bg-white text-[#001f6e] border-0 hover:bg-[#dce1ff] shadow-2xl tracking-wider uppercase">
             Donate Today
-          </Link>
+          </Button>
         </div>
       </div>
     </section>

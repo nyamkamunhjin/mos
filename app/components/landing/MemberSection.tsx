@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
-
+import { Button } from '@/components/ui/button';
 export function MemberSection() {
   return (
     <section className="py-24 px-8 bg-white border-b border-[#c5c5d4]/20 overflow-hidden relative">
@@ -39,21 +38,15 @@ export function MemberSection() {
             ))}
           </div>
           <div className="flex flex-wrap gap-6 items-center">
-            <Link
-              href="#"
-              className="bg-[#001f6e] text-white px-10 py-4 rounded-full font-bold hover:bg-[#1a368d] transition-all shadow-lg active:scale-95 cursor-pointer"
-            >
+            <Button href="#" variant="default" size="pill" className="shadow-lg">
               Become a Member
-            </Link>
-            <Link
-              href="/introduction/overview"
-              className="text-[#001f6e] font-bold flex items-center gap-2 group text-sm cursor-pointer"
-            >
+            </Button>
+            <Button href="/introduction/overview" variant="link" className="text-sm gap-2 group">
               View Membership Tiers
               <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
                 arrow_right_alt
               </span>
-            </Link>
+            </Button>
           </div>
         </div>
         <div className="flex-1 w-full md:w-auto">

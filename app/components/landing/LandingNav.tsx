@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { NavDropdown } from './NavDropdown';
+import { Button } from '@/components/ui/button';
 
 const navGroups = [
   {
@@ -87,21 +88,14 @@ export function LandingNav() {
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
-          <Link
-            href="/donate"
-            className={`hidden sm:inline-block px-6 lg:px-8 py-2 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md ${
-              scrolled
-                ? 'bg-white/15 text-white hover:bg-white/25'
-                : 'bg-[#1a368d] text-white hover:opacity-90'
-            }`}
-          >
+          <Button href="/donate" variant="outline" size="pill-sm" className={`${scrolled ? 'bg-white/15 text-white hover:bg-white/25 border-0' : 'bg-[#1a368d] text-white border-0'}`}>
             Donate
-          </Link>
+          </Button>
 
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className={`md:hidden p-1 transition-colors ${
+            className={`md:hidden p-1 transition-colors cursor-pointer ${
               scrolled ? 'text-white' : 'text-mos-navy'
             }`}
             aria-label="Toggle menu"
@@ -155,13 +149,9 @@ export function LandingNav() {
                 Blog News
               </span>
               <div className="mt-6">
-                <Link
-                  href="/donate"
-                  className="block w-full bg-[#1a368d] text-white py-3 rounded-full font-bold text-sm text-center hover:opacity-90 active:scale-95 transition-all shadow-md"
-                  onClick={() => setMenuOpen(false)}
-                >
+                <Button href="/donate" variant="outline" size="pill" className="w-full bg-[#1a368d] text-white border-0 shadow-md" onClick={() => setMenuOpen(false)}>
                   Donate
-                </Link>
+                </Button>
               </div>
             </div>
           </div>

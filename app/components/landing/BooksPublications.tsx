@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useRef } from 'react';
+import { Button } from '@/components/ui/button';
 
 export function BooksPublications() {
   const booksRef = useRef<HTMLDivElement>(null);
@@ -24,18 +25,22 @@ export function BooksPublications() {
           </h2>
         </div>
         <div className="flex gap-4">
-          <button
+          <Button
             onClick={() => scrollBooks('left')}
-            className="p-2 rounded-full border border-[#c5c5d4] hover:bg-[#e9e7ef] transition-colors text-[#001f6e]"
+            variant="outline"
+            size="icon"
+            className="rounded-full border-[#c5c5d4] text-[#001f6e]"
           >
             <span className="material-symbols-outlined">chevron_left</span>
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => scrollBooks('right')}
-            className="p-2 rounded-full border border-[#c5c5d4] hover:bg-[#e9e7ef] transition-colors text-[#001f6e]"
+            variant="outline"
+            size="icon"
+            className="rounded-full border-[#c5c5d4] text-[#001f6e]"
           >
             <span className="material-symbols-outlined">chevron_right</span>
-          </button>
+          </Button>
         </div>
       </div>
       <div className="relative px-8 md:px-0">

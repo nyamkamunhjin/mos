@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -279,12 +280,15 @@ export default function DonatePage() {
                 </div>
 
                 <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-                  <button
+                  <Button
                     type="submit"
-                    className="w-full sm:w-auto px-10 py-3.5 bg-[#001f6e] text-white rounded-xl font-bold font-[Manrope,sans-serif] text-sm hover:opacity-90 active:scale-[0.97] transition-all shadow-md"
+                    variant="default"
+                    size="pill-sm"
+                    shape="square"
+                    className="shadow-md w-full sm:w-auto"
                   >
                     Send Donation Details
-                  </button>
+                  </Button>
                   <p className="text-xs text-[#b0a694] font-[Manrope,sans-serif]">
                     We&apos;ll respond within 2 business days
                   </p>

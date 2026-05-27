@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export function SpeciesSection() {
   return (
@@ -14,12 +14,9 @@ export function SpeciesSection() {
               Recent News
             </h2>
           </div>
-          <Link
-            href="/birds"
-            className="text-[#001f6e] font-medium border-b border-[#001f6e]/20 pb-1 cursor-pointer"
-          >
+          <Button href="/birds" variant="link" className="border-b border-[#001f6e]/20 pb-1">
             View Full Directory
-          </Link>
+          </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[700px]">
           <div className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl min-h-[240px] md:min-h-0">
@@ -84,12 +81,15 @@ export function SpeciesSection() {
             <p className="text-sm font-[Manrope,sans-serif] opacity-80 mb-6">
               Confirmed species documented across the region
             </p>
-            <Link
+            <Button
               href="/birds"
-              className="inline-block text-xs font-bold tracking-widest uppercase border border-white/20 px-4 py-2 rounded-full hover:bg-white/10 cursor-pointer"
+              variant="outline"
+              size="sm"
+              shape="pill"
+              className="border-white/20 text-white hover:bg-white/10"
             >
               Browse Data
-            </Link>
+            </Button>
           </div>
         </div>
       </div>

@@ -232,24 +232,24 @@ function BirdsPageContent() {
               </p>
 
               <div className="flex items-center gap-1 bg-white border border-mos-border/30 rounded-xl p-1 shadow-sm">
-                <Button
+                <button
                   onClick={() => setParam('view', 'grid')}
-                  variant="ghost"
-                  size="sm"
-                  className={`gap-1.5 rounded-lg text-xs font-bold ${view === 'grid' ? 'bg-mos-navy text-white shadow-sm hover:bg-mos-navy' : 'text-mos-muted hover:text-mos-navy'}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all cursor-pointer ${
+                    view === 'grid' ? 'bg-mos-navy text-white shadow-sm' : 'text-mos-muted hover:text-mos-navy hover:bg-mos-periwinkle/30'
+                  }`}
                 >
                   <span className="material-symbols-outlined text-sm">grid_view</span>
                   Grid
-                </Button>
-                <Button
+                </button>
+                <button
                   onClick={() => setParam('view', 'map')}
-                  variant="ghost"
-                  size="sm"
-                  className={`gap-1.5 rounded-lg text-xs font-bold ${view === 'map' ? 'bg-mos-navy text-white shadow-sm hover:bg-mos-navy' : 'text-mos-muted hover:text-mos-navy'}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all cursor-pointer ${
+                    view === 'map' ? 'bg-mos-navy text-white shadow-sm' : 'text-mos-muted hover:text-mos-navy hover:bg-mos-periwinkle/30'
+                  }`}
                 >
                   <span className="material-symbols-outlined text-sm">map</span>
                   Map
-                </Button>
+                </button>
               </div>
             </div>
 
@@ -289,7 +289,7 @@ function BirdsPageContent() {
                 {page > 1 && (
                   <button
                     onClick={() => setParam('page', String(page - 1))}
-                    className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity"
+                    className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-base">arrow_back</span>
                     Previous
@@ -303,7 +303,7 @@ function BirdsPageContent() {
                 {page < pagination.pageCount && (
                   <button
                     onClick={() => setParam('page', String(page + 1))}
-                    className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity"
+                    className="flex items-center gap-1 text-sm font-[Manrope,sans-serif] font-semibold text-mos-navy hover:opacity-70 transition-opacity cursor-pointer"
                   >
                     Next
                     <span className="material-symbols-outlined text-base">arrow_forward</span>

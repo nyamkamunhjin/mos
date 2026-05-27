@@ -83,10 +83,10 @@ export function SpeciesSection() {
             </p>
             <Button
               href="/birds"
-              variant="outline"
+              variant="ghost"
               size="sm"
               shape="pill"
-              className="border-white/20 text-white hover:bg-white/10"
+              className="border border-white/20 text-white hover:bg-white/10"
             >
               Browse Data
             </Button>

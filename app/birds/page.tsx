@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getBirds, getFamilies, getStrapiMediaUrl } from '@/lib/strapi';
 import type { StrapiBird } from '@/lib/types/bird';
+import BirdMap from '@/app/components/birds/DynamicBirdMap';
 
 const STATUS_COLORS: Record<string, string> = {
   LC: 'bg-green-100 text-green-800',
@@ -129,6 +130,7 @@ export default async function BirdsPage({
   const conservationStatus =
     typeof params.conservationStatus === 'string' ? params.conservationStatus : undefined;
   const search = typeof params.search === 'string' ? params.search : undefined;
+  const view = typeof params.view === 'string' ? params.view : 'grid';
 
   const [birdData, families] = await Promise.all([
     getBirds({ page, family, conservationStatus, search, pageSize: 24 }),
@@ -237,14 +239,62 @@ export default async function BirdsPage({
         {/* ── Results ── */}
         {birdData.birds.length > 0 ? (
           <>
-            <p className="text-sm text-mos-muted font-[Manrope,sans-serif] mb-6">
-              Showing {birdData.birds.length} of {birdData.pagination.total} species
-            </p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {birdData.birds.map((bird) => (
-                <BirdCard key={bird.id} bird={bird} />
-              ))}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-mos-muted font-[Manrope,sans-serif]">
+                Showing {birdData.birds.length} of {birdData.pagination.total} species
+              </p>
+
+              {/* View toggle */}
+              <div className="flex items-center gap-1 bg-white border border-mos-border/30 rounded-xl p-1 shadow-sm">
+                <Link
+                  href={`/birds?${new URLSearchParams({ ...Object.fromEntries(Object.entries({ ...params }).filter(([k]) => k !== 'view')), view: 'grid' } as Record<string, string>).toString()}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
+                    view === 'grid'
+                      ? 'bg-mos-navy text-white shadow-sm'
+                      : 'text-mos-muted hover:text-mos-navy'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-sm">grid_view</span>
+                  Grid
+                </Link>
+                <Link
+                  href={`/birds?${new URLSearchParams({ ...Object.fromEntries(Object.entries({ ...params }).filter(([k]) => k !== 'view')), view: 'map' } as Record<string, string>).toString()}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-[Manrope,sans-serif] transition-all ${
+                    view === 'map'
+                      ? 'bg-mos-navy text-white shadow-sm'
+                      : 'text-mos-muted hover:text-mos-navy'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-sm">map</span>
+                  Map
+                </Link>
+              </div>
             </div>
+
+            {view === 'map' ? (
+              <div className="mb-8">
+                <BirdMap
+                  locations={birdData.birds
+                    .filter((b) => b.latitude && b.longitude)
+                    .map((b) => ({ lat: b.latitude!, lng: b.longitude!, name: b.commonName, slug: b.slug }))}
+                  className="w-full h-[550px] rounded-2xl"
+                  zoom={4}
+                />
+                {birdData.birds.filter((b) => b.latitude && b.longitude).length < birdData.birds.length && (
+                  <p className="text-xs text-mos-muted font-[Manrope,sans-serif] mt-2 text-center">
+                    {birdData.birds.filter((b) => b.latitude && b.longitude).length} of{' '}
+                    {birdData.birds.length} species have location data
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {birdData.birds.map((bird) => (
+                  <BirdCard key={bird.id} bird={bird} />
+                ))}
+              </div>
+            )}
+
             {birdData.pagination.pageCount > 1 && (
               <Pagination
                 current={birdData.pagination.page}

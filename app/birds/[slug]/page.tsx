@@ -5,6 +5,7 @@ import { getBirdBySlug, getAllBirdSlugs, getStrapiMediaUrl } from '@/lib/strapi'
 import type { Metadata } from 'next';
 import type { StrapiBird } from '@/lib/types/bird';
 import ImageGallery from '@/app/components/birds/ImageGallery';
+import BirdMap from '@/app/components/birds/DynamicBirdMap';
 
 const STATUS_LABELS: Record<string, string> = {
   LC: 'Least Concern',
@@ -198,6 +199,27 @@ export default async function BirdDetailPage({
           </>
         )}
       </div>
+
+      {/* ── Map ── */}
+      {bird.latitude && bird.longitude && (
+        <section className="py-16 md:py-20 bg-mos-section">
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="max-w-3xl mb-12">
+              <SectionEyebrow text="Distribution" />
+              <h2 className="font-[Newsreader,serif] text-3xl md:text-4xl text-mos-navy font-semibold leading-tight">
+                Location Map
+              </h2>
+              <p className="text-mos-muted text-base font-[Manrope,sans-serif] mt-3 leading-relaxed">
+                Approximate geographic range of {bird.commonName} in Mongolia.
+              </p>
+            </div>
+            <BirdMap
+              locations={[{ lat: bird.latitude, lng: bird.longitude, name: bird.commonName, slug: bird.slug }]}
+              className="w-full h-[400px]"
+            />
+          </div>
+        </section>
+      )}
 
       {/* ── Image Gallery ── */}
       <ImageGallery images={bird.images} />

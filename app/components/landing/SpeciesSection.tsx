@@ -22,7 +22,7 @@ export function SpeciesSection() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[700px]">
-          <div className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl">
+          <div className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl min-h-[240px] md:min-h-0">
             <Image
               src="/test-landing/saker-falcon.jpg"
               alt="Saker Falcon"
@@ -45,7 +45,7 @@ export function SpeciesSection() {
               </p>
             </div>
           </div>
-          <div className="md:col-span-2 relative group overflow-hidden rounded-xl">
+          <div className="md:col-span-2 relative group overflow-hidden rounded-xl min-h-[200px] md:min-h-0">
             <Image
               src="/test-landing/sandgrouse.jpg"
               alt="Pallas's Sandgrouse"
@@ -63,7 +63,7 @@ export function SpeciesSection() {
               </p>
             </div>
           </div>
-          <div className="relative group overflow-hidden rounded-xl">
+          <div className="relative group overflow-hidden rounded-xl min-h-[200px] md:min-h-0">
             <Image
               src="/test-landing/golden-eagle.jpg"
               alt="Golden Eagle"
@@ -77,7 +77,7 @@ export function SpeciesSection() {
               </h3>
             </div>
           </div>
-          <div className="relative group overflow-hidden rounded-xl bg-[#1a368d] flex flex-col justify-center items-center p-6 text-center text-white">
+          <div className="relative group overflow-hidden rounded-xl bg-[#1a368d] flex flex-col justify-center items-center p-6 text-center text-white min-h-[200px] md:min-h-0">
             <div className="text-4xl font-[Newsreader,serif] font-bold mb-4">
               470+
             </div>

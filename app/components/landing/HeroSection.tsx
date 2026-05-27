@@ -3,7 +3,7 @@ import Image from 'next/image';
 export function HeroSection() {
   return (
     <header
-      className="relative h-[921px] w-full overflow-hidden flex flex-col justify-center items-center text-center px-6"
+      className="relative h-[480px] sm:h-[560px] md:h-[921px] w-full overflow-hidden flex flex-col justify-center items-center text-center px-6"
       style={{ clipPath: 'ellipse(85% 100% at 50% 0%)' }}
     >
       <div className="absolute inset-0 z-0">
@@ -21,7 +21,7 @@ export function HeroSection() {
         <span className="text-white font-[Manrope,sans-serif] tracking-[0.2em] text-sm uppercase mb-4 block [text-shadow:0_2px_4px_rgba(0,0,0,0.5),0_1px_10px_rgba(0,0,0,0.3)]">
           Est. 1999 &bull; Ulaanbaatar
         </span>
-        <h1 className="font-[Newsreader,serif] text-5xl md:text-7xl text-white mb-6 leading-tight font-medium [text-shadow:0_2px_4px_rgba(0,0,0,0.5),0_1px_10px_rgba(0,0,0,0.3)]">
+        <h1 className="font-[Newsreader,serif] text-3xl sm:text-5xl md:text-7xl text-white mb-6 leading-tight font-medium [text-shadow:0_2px_4px_rgba(0,0,0,0.5),0_1px_10px_rgba(0,0,0,0.3)]">
           Give now and your gift goes twice as far
         </h1>
         <p className="text-xl text-white/95 max-w-2xl mx-auto mb-10 leading-relaxed [text-shadow:0_2px_4px_rgba(0,0,0,0.5),0_1px_10px_rgba(0,0,0,0.3)]">

@@ -15,7 +15,7 @@ export function OnlineGuide() {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
-        <div className="absolute -bottom-6 -right-6 bg-[#1a368d] p-8 rounded-xl shadow-xl z-20 max-w-xs text-white">
+        <div className="absolute -bottom-6 left-0 md:-right-6 md:left-auto bg-[#1a368d] p-8 rounded-xl shadow-xl z-20 max-w-xs text-white">
           <h4 className="font-[Newsreader,serif] text-2xl mb-2 font-medium italic">
             Scientific Rigor
           </h4>

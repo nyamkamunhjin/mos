@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function SupportSection() {
   return (
-    <section className="relative py-40 px-8 overflow-hidden text-white">
+    <section className="relative py-24 md:py-40 px-8 overflow-hidden text-white">
       <div className="absolute inset-0 z-0">
         <Image
           src="/test-landing/saker-falcon.jpg"

@@ -8,15 +8,23 @@ export function NavDropdown({
   label,
   items,
   active,
+  dark,
 }: {
   label: string;
   items: NavItem[];
   active?: boolean;
+  dark?: boolean;
 }) {
   return (
     <div className="group relative">
       <span
-        className={`text-sm font-semibold tracking-wide pb-1 cursor-default ${active ? 'text-white border-b-2 border-white' : 'text-white/90 hover:text-white'}`}
+        className={`text-sm font-semibold tracking-wide pb-1 cursor-default transition-colors ${
+          active
+            ? `${dark ? 'text-mos-navy border-mos-navy' : 'text-white border-white'} border-b-2`
+            : dark
+              ? 'text-mos-navy/80 hover:text-mos-navy'
+              : 'text-white/90 hover:text-white'
+        }`}
       >
         {label}
       </span>

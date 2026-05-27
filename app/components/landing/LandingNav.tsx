@@ -72,7 +72,7 @@ export function LandingNav() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center space-x-8 lg:space-x-10">
           {navGroups.map((g) => (
-            <NavDropdown key={g.label} label={g.label} active={g.active} items={g.items} />
+            <NavDropdown key={g.label} label={g.label} active={g.active} items={g.items} dark={!scrolled} />
           ))}
           <Link href="#" className={`text-sm font-semibold tracking-wide transition-colors ${
             scrolled ? 'text-white/90 hover:text-white' : 'text-mos-navy/80 hover:text-mos-navy'

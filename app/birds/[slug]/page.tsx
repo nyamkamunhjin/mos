@@ -7,6 +7,8 @@ import type { StrapiBird } from '@/lib/types/bird';
 import ImageGallery from '@/app/components/birds/ImageGallery';
 import BirdMap from '@/app/components/birds/DynamicBirdMap';
 
+export const revalidate = 3600;
+
 const STATUS_LABELS: Record<string, string> = {
   LC: 'Least Concern',
   NT: 'Near Threatened',

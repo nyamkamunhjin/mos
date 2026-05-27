@@ -1,179 +1,276 @@
-"use client";
-
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
+
+const members = [
+  {
+    name: "Prof. D. Sumiya",
+    title: "Honorary Member",
+    imageUrl: "/members/Sumiya.jpg",
+    role: 'Founding Member',
+    bio: "Prof. D. Sumiya has more than 20 years' experience in studying birds of Khuvsgul Lake with Russian colleagues. His most famous monograph is \"Birds of Kuvsgul Lake and its surrounding territories\". He is one of the founders of the Ornithological Laboratory at NUM and has worked at the University more than 30 years. The main topic of his bird research is ecology of Gulls and rare bird conservation in Mongolia. In recent years, he is working on breeding biology and conservation of steppe raptors with Gomboo. He is a famous lecturer of Ornithology in Mongolia and has been training new generation of Mongolian ornithologists for 40 years.",
+  },
+  {
+    name: "Dr. S. Gombobaatar",
+    title: "Founder & Director",
+    imageUrl: "/Gombobaatar.JPG",
+    role: 'Founder',
+    bio: "One of the founders of the Society in 1999. Since then, he has been extensively dealing with activities on bird research, conservation, and international collaborations for the Society. He is also head of the Laboratory of Ornithology at the National University of Mongolia. Gomboo wrote his master thesis on Cranes of Mongolia in 1996 and Ph.D. thesis on Saker Falcon in Mongolia in 2006. He has been supervising and coordinating all projects and research works of the Society, and supervising theses of B.Sc., MSc., Ph.D students at his Laboratory.",
+  },
+  {
+    name: "Ch. Uuganbayar MSc.",
+    title: "Board Member",
+    imageUrl: "/members/Uuganbayar_Last.jpg",
+    role: 'Board Member',
+    bio: "One of the pioneer members of the society. His bachelor and master thesis were written on the diet composition of Sakers in Central Mongolia. Since 2002, Uugan has been working at the Biology Department of Mongolian State University of Agriculture. He successfully organized several birding and ornithological expeditions in Eastern Mongolia.",
+  },
+  {
+    name: "D. Usukhjargal MSc.",
+    title: "Board Member",
+    imageUrl: "/members/Usukhuu.jpg",
+    role: 'Board Member',
+    bio: "He has been working at Hustai Nuruu National Park as a Takhi biologist since 2003. He is one of the experts on birds in the areas. He completed his master thesis on Reed Deer in Hustai Nuruu National Park. Now he is studying doctorate training at the National University of Mongolia.",
+  },
+  {
+    name: "P. Amartuvshin MSc.",
+    title: "Board Member",
+    imageUrl: "/placeholder.svg",
+    role: 'Board Member',
+    bio: "He is one of the researchers of the Society. Amaraa wrote his master thesis on Impacts of power lines on bird mortality in 2010. He has participated in research projects on Regional Red List of Birds, risk assessments of high power electric lines, and Important Bird Areas surveys. He has been guiding the Society's birding tours since 2009.",
+  },
+  {
+    name: "B. Odkhuu MSc.",
+    title: "Ornithologist",
+    imageUrl: "/placeholder.svg",
+    role: 'Researcher',
+    bio: "Ornithologist at Chinggis Khaan International Airport, working to reduce bird and aircraft strike hazards since 2008. He wrote his bachelor thesis on Saker falcon's sex and age identification and master thesis on biological surveys of upland buzzard. He is interested in studying urban birds and raptors.",
+  },
+  {
+    name: "B. Gantulga Dr.",
+    title: "Researcher",
+    imageUrl: "/placeholder.svg",
+    role: 'Researcher',
+    bio: "Received his bachelor and master degree from the National University of Mongolia. His master thesis was on breeding success of Azure-winged magpie. He has been a member of the Mongolian Ornithological Society since 2005 and is well experienced in field study and birding.",
+  },
+  {
+    name: "O. Soronzonbold MSc.",
+    title: "Young Member",
+    imageUrl: "/placeholder.svg",
+    role: 'Researcher',
+    bio: "One of the young members of the society. He participates in Pallas's fish eagle and Saker surveys, helps organise conferences and workshops. He's interested in studying conservation genetics and biology of birds and wildlife in Mongolia.",
+  },
+  {
+    name: "B. Yumjirmaa",
+    title: "Member",
+    imageUrl: "/members/yuki.jpg",
+    role: 'Researcher',
+    bio: "Graduated from the National University of Mongolia majoring in Ecology and Nature Conservation. She has been a member of the Society since 2009 and has actively participated in conferences, workshops and birding trips.",
+  },
+  {
+    name: "U. Tuvshin",
+    title: "Researcher",
+    imageUrl: "/members/tuvshin.jpg",
+    role: 'Researcher',
+    bio: "Graduated from Eco-Asia Institute's Ecology & Conservation class. His research work includes observation of birds in the Avian Influenza Mongolia Project, Great Bustard's migration, and water birds migration studies.",
+  },
+  {
+    name: "E. Unurjargal",
+    title: "Young Member",
+    imageUrl: "/placeholder.svg",
+    role: 'Researcher',
+    bio: "One of the young members of the society. She graduated from the National University of Mongolia's Ecotourism Management class. She participates in bird watching tours and helps organize conferences and workshops.",
+  },
+];
+
+const leadership = members.slice(0, 2);
+const boardMembers = members.slice(2, 5);
+const otherMembers = members.slice(5);
 
 export default function MembersPage() {
-  const members = [
-    {
-      name: "Prof. D.SUMIYA",
-      title: "An honorary member",
-      imageUrl: "/members/Sumiya.jpg",
-      bio: "Prof. D. Sumiya has more than 20 years' experience in studying birds of Khuvsgul Lake with Russian colleagues. His most famous monograph is \"Birds of Kuvsgul Lake and its surrounding territories\". He is one of the founders of the Ornithological Laboratory at NUM and has worked at the University more than 30 years. The main topic of his bird research is ecology of Gulls and rare bird conservation in Mongolia. In recent years, he is working on breeding biology and conservation of steppe raptors with Gomboo. He is a famous lecturer of Ornithology in Mongolia and has been training new generation of Mongolian ornithologists for 40 years. He has published scientific papers in Mongolian, Russian, and German, and is currently being translated into English. You can see his co-author publications from the publication list.",
-    },
-    {
-      name: "Dr. S.GOMBOBAATAR",
-      title: "Founder and Director",
-      imageUrl: "/Gombobaatar.JPG",
-      bio: "He is one of the founders of the Society in 1999. Since then, he has been extensively dealing with activities on bird research, conservation, and international collaborations for the Society. He is also head of the Laboratory of Ornithology, Zoology Department of School of Biology and Biotechnology at National University of Mongolia. Gomboo wrote his master thesis on Cranes of  Mongolia in 1996 and Ph.D. thesis on Saker Falcon in Mongolia in 2006 and successfully completed post doctorate programme at the Ben Gurion University, Isreal in 2007 (Prof. Reuven Yosef). He has been supervising and coordinating all projects and research works of the Society, and supervising theses of B.Sc., MSc., Ph.D students at his Laboratory. At the meantime, he deals with a wide range activities such as; 2010-present. National focal point for Mongolia for the Scientific and Technical review panel (STRP) of the Ramsar Convention and board member of the Ramsar Convention secretariat of Mongolia, Mongolia; 2010-present. Board member of the Raptor Research Foundation Conservation committee, USA; 2010-present. Member of the Japanese Bird Banding Association, Japan; 2010-present. Member of the International Ornithologist's Union, USA; 2009-present. Recognized Ph.D.  supervisor of the Rashtrasant Tukadoji Maharaj Nagpur University, India (88B/53); 2009-present. Member of the Fauna and Flora International, UK;2008-present. Board member of Goviin Khulan Association, France; 2008-present. Coordinator of the Steppe Forward Programme, joint programme of the Zoological Society of London (ZSL, UK) and National University of Mongolia; 2008-present. National representative of the Asian Raptor Research and Conservation Network, Japan; 2004-present. Honorary member of the Oriental Bird Club , UK;2003-present. National representative of the Anatidae working group of the South East Asia and Siberia region, South-east Asia, Japan; 1999-present. Founder and President of the Mongolian Ornithological Society, Mongolia etc. He wrote several books related to birds and biodiversity in Mongolian and English. He likes to watch and photograph birds and their habitats. He has one of the best bird image databases of Mongolian birds. Gomboo likes traveling and birding in Mongolia and overseas. He has been guiding the Society's birding tours since 1999.",
-    },
-    {
-      name: "CH.UUGANBAYAR MSc.",
-      title: "Board member of the society",
-      imageUrl: "/members/Uuganbayar_Last.jpg",
-      bio: "He is one of the pioneer members of the society. His bachelor and master thesis were written on the diet composition of Sakers in Central Mongolia. Since 2002, Uugan has been working at the Biology Department of Mongolian State University of Agriculture. He successfully organized several birding and ornithological expeditions in Eastern Mongolia. Uugan is interested in studying climate changes and grazing impacts it has on wetland birds in Mongolia.",
-    },
-    {
-      name: "D.Usukhjargal MSc.",
-      title: "Board member of the society",
-      imageUrl: "/members/Usukhuu.jpg",
-      bio: "He has been working at Hustai Nuruu national (www.hustai.mn) park as a Takhi (Przewalski's wild horse) biologist since 2003. He is one of the experts on birds in the areas. He has travelled across Mongolia together with Gomboo's field team members since 2001. He completed his master thesis on Reed Deer in Hustai Nuruu national park in Mongolia in 2002. Now he is studying doctorate training at the National University of Mongolia. He is also a board member of the Mongolian Ornithological Society (www.mos.mn) and a member of German Society of Mammalogy. His main interest is not only bird but also wildlife research and conservation in the protected area, and craniometrical and non-metric skull characteristic studies of mammals and its evaluation of population biology and population genetics.",
-    },
-    {
-      name: "P.Amartuvshin MSc.",
-      title: "Board member of the society",
-      imageUrl: "/placeholder.svg",
-      bio: "He is one of the researchers of the Society. Amaraa wrote his master thesis on Impacts of power lines on bird mortality in 2010. He has participated in research projects such as; 2008-2011. Regional Red List of Birds, in Mongolia supported by Dutch Government (NEMO-2), World Bank, Ministry of Nature, Environment and Tourism, Mongolia; 2009-2010. A risk assessments of high power electric line in Mongolia funded by the Asia Research Centre, Korean Foundation for Advanced Studies, South Korea; 2008-2009. The assessment of high-risk utility lines and conservation of the globally threatened pole-nesting steppe raptors in Mongolia funded by the Oriental Bird Club, UK; 2004. Important Bird Areas (IBA) Survey in Eastern Mongolia together with RSPB researchers funded by the WCS and RSPB. He likes to watch and photograph birds and their habitats. Amaraa likes traveling and birding in Mongolia and overseas. He has been guiding the Society's birding tours since 2009.",
-    },
-    {
-      name: "B.Odkhuu MSc.",
-      title: "",
-      imageUrl: "/placeholder.svg",
-      bio: "Ornithologist of Chinggis Khaan International Airport. He has been working at the airport to reduce bird and aircraft strike hazards since 2008. He wrote his bachelor thesis on \"Saker falcon's sex and age identification by the primer feathers\" in 2006 and master thesis on \"Biological surveys of upland buzzard\" in 2008. He participated in surveys such as Nest platform of steppe raptors in 2003-2005, Black stork migration study of Mongolia in 2004, 2005. He is interested in studying urban birds and raptors. He has experience in study fields such as bird identification, taking samples, photos, bird net use, and bird observation.",
-    },
-    {
-      name: "B.Gantulga Dr.",
-      title: "",
-      imageUrl: "/placeholder.svg",
-      bio: "B.Gantulga received his bachelor and master degree from the National University of Mongolia, Biology faculty in 2007 and 2010. His master thesis was entitled \"Breeding success of Azure-winged magpie (Cyanopica cyanus Pallas, 1776), cooperative breeding\". He has been a member of the Mongolian Ornithological Society since 2005 and has participated in several research projects organized by the Society. He is well experienced in field study, organizing field trips, and birding.",
-    },
-    {
-      name: "O. Soronzonbold MSc.",
-      title: "",
-      imageUrl: "/placeholder.svg",
-      bio: "Soronzon is one of the young members of the society. He is a third year student at the National University of Mongolia's Ecotourism Management class. He is a fourth year student at National University of Mongolia's Biotechnology class. He graduated from 33 high school of Ulaanbaatar in 2008. Soronzon participates in Pallas's fish eagle and Sakers surveys, helps organise conferences and workshops, including the Mongolian Regional Red List of Birds in 2009 and 6th International Conference on Asian Raptors in 2010.  He's interested in studying conservation genetics and biology of birds and wildlife in Mongolia.Soroko hopes to use her knowledge and experience from eco-tourism major to develop and expand the society's bird watching and filming tours. She has been an assistant guide for the Society's birding trip since 2010.",
-    },
-    {
-      name: "B.Yumjirmaa",
-      title: "",
-      imageUrl: "/members/yuki.jpg",
-      bio: "Yumjirmaa graduated from the National University of Mongolia majoring in Ecology and Nature Conservation. She has been a member of the Society since 2009 and has actively participated in conferences, workshops and birding trips. She graduated high school from Selenge soum of Bulgan province. She will continue her education in Ecology by participating in research works and activities conducted by the Society.",
-    },
-    {
-      name: "U.Tuvshin",
-      title: "",
-      imageUrl: "/members/tuvshin.jpg",
-      bio: "Tuvshin graduated from 81th high school of Ulaanbaatar city in 2004 and enrolled in Eco-Asia Institute's Ecology & Conservation class. He graduated in 2008 and received his bachelor's degree. He has been a member of the society since 2009 and is currently studying for his master degree. His research works include observation of birds in \"Avian Influenza Mongolia Project\" – 2008, 2009, \"Great Bustard's migration in North Mongolia\" 2008, 2009, \"Water birds migration\" – 2010.",
-    },
-    {
-      name: "E.Unurjargal",
-      title: "",
-      imageUrl: "/placeholder.svg",
-      bio: "Unuruu is one of the young members of the society. She graduated from the National University of Mongolia's Ecotourism Management class. She graduated from Alameda High School in Alameda, California in 2006, and started her university education at California State University with a major in Molecular and Cellular Biology. She participates in bird watching tours, helps organize conferences and workshops, including the Mongolian Regional Red List of Birds in 2009 and 6th International Conference on Asian Raptors in 2010. Unuruu hopes to use her knowledge and experience from eco-tourism major to develop and expand the society's bird watching and filming tours. She has been an assistant guide for the Society's birding trip since 2010.",
-    }
-  ];
-
   return (
-    <div className="container mx-auto py-12 pt-28 px-4 md:px-6">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-blue-700 mb-8 text-center">
-          OUR MEMBERS
-        </h1>
-        
-        <p className="text-lg mb-10 text-gray-700 max-w-3xl mx-auto text-center">
-          Meet the dedicated team behind the Mongolian Ornithological Society. Our members bring diverse expertise and passion to bird research, conservation, and education.
-        </p>
-        
-        {/* Featured Members Section */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-8 border-b border-blue-200 pb-3">Leadership</h2>
-          <div className="grid grid-cols-1 gap-12">
-            {members.slice(0, 2).map((member, index) => (
-              <Card key={index} className="overflow-hidden border-0 shadow-xl bg-white rounded-xl hover:shadow-2xl transition-all duration-300">
-                <div className="flex flex-col lg:flex-row">
-                  <div className="lg:w-1/3 relative">
-                    <div className="aspect-[3/4] lg:aspect-auto lg:h-full w-full relative bg-blue-50">
-                      <Image
-                        src={member.imageUrl}
-                        alt={member.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        priority
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-                  </div>
-                  <div className="lg:w-2/3 p-6 lg:p-8 bg-gradient-to-br from-white to-blue-50">
-                    <div className="border-l-4 border-blue-600 pl-4 mb-4">
-                      <h3 className="text-2xl font-bold text-blue-800">{member.name}</h3>
-                      {member.title && <p className="text-md font-medium text-blue-600">{member.title}</p>}
-                    </div>
-                    <p className="text-gray-700 leading-relaxed">{member.bio}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+    <div className="bg-mos-surface">
+      {/* ── Hero ── */}
+      <section className="relative h-[480px] md:h-[560px] overflow-hidden flex items-end">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/test-landing/altai.jpg"
+            alt="Mongolian landscape"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#001f6e]/80 via-[#001f6e]/30 to-transparent" />
         </div>
-        
-        {/* Board Members Section */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Board Members</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {members.slice(2, 5).map((member, index) => (
-              <Card key={index} className="overflow-hidden border border-blue-100 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="flex flex-col h-full">
-                  <div className="h-64 relative">
-                    <Image
-                      src={member.imageUrl}
-                      alt={member.name}
-                      fill
-                      className="object-cover object-top"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                      <div className="p-4 text-white">
-                        <h3 className="text-lg font-bold">{member.name}</h3>
-                        {member.title && <p className="text-sm font-medium opacity-90">{member.title}</p>}
-                      </div>
-                    </div>
-                  </div>
-                  <CardContent className="flex-grow bg-white p-4">
-                    <p className="text-sm text-gray-700">{member.bio}</p>
-                  </CardContent>
-                </div>
-              </Card>
-            ))}
-          </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-8 pb-16 md:pb-24 w-full">
+          <span className="text-[#ffdbcd] font-[Manrope,sans-serif] tracking-[0.25em] text-xs uppercase mb-4 block font-bold">
+            Since 1999 &bull; Our People
+          </span>
+          <h1 className="font-[Newsreader,serif] text-4xl md:text-6xl lg:text-7xl text-white mb-4 font-semibold leading-tight max-w-3xl drop-shadow-lg">
+            Our Members
+          </h1>
+          <p className="text-white/80 text-lg md:text-xl max-w-2xl font-[Manrope,sans-serif] drop-shadow leading-relaxed">
+            Meet the dedicated ornithologists, researchers, and conservationists
+            behind the Mongolian Ornithological Society.
+          </p>
         </div>
-        
-        {/* Other Members Section */}
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Members and Researchers</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {members.slice(5).map((member, index) => (
-              <Card key={index} className="overflow-hidden border border-gray-100 shadow hover:shadow-md transition-shadow duration-300">
-                <div className="flex p-4 items-center gap-4">
-                  <div className="w-16 h-16 relative flex-shrink-0 rounded-full overflow-hidden bg-blue-100">
+      </section>
+
+      {/* ── Leadership ── */}
+      <section className="py-24 md:py-28 px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-16">
+            <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
+              Mentors &amp; Founders
+            </span>
+            <h2 className="font-[Newsreader,serif] text-4xl md:text-5xl text-mos-navy font-semibold leading-tight">
+              Leadership
+            </h2>
+          </div>
+          <div className="space-y-20">
+            {leadership.map((member, i) => (
+              <div
+                key={i}
+                className="grid md:grid-cols-5 gap-8 md:gap-12 items-start"
+              >
+                <div className="md:col-span-2">
+                  <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-lg border border-white/60">
                     <Image
                       src={member.imageUrl}
                       alt={member.name}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 40vw"
                     />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{member.name}</h3>
-                    {member.title && <p className="text-xs text-gray-600 mb-1">{member.title}</p>}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   </div>
                 </div>
-                <CardContent className="pt-0 pb-4 px-4">
-                  <p className="text-sm text-gray-700">{member.bio}</p>
-                </CardContent>
-              </Card>
+                <div className="md:col-span-3 md:pt-8">
+                  <span className="font-[Manrope,sans-serif] text-[11px] font-bold text-mos-accent tracking-[0.2em] uppercase">
+                    {member.role}
+                  </span>
+                  <h3 className="font-[Newsreader,serif] text-3xl md:text-4xl text-mos-navy font-semibold mt-2 mb-1 leading-tight">
+                    {member.name}
+                  </h3>
+                  <p className="text-mos-muted text-sm font-[Manrope,sans-serif] font-medium uppercase tracking-wider mb-6">
+                    {member.title}
+                  </p>
+                  <div className="w-12 h-0.5 bg-mos-navy/20 mb-6" />
+                  <p className="text-mos-text text-base md:text-lg leading-relaxed font-[Manrope,sans-serif]">
+                    {member.bio}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ── Board Members ── */}
+      <section className="py-24 md:py-28 px-8 bg-mos-section">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-16">
+            <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
+              Executive Team
+            </span>
+            <h2 className="font-[Newsreader,serif] text-4xl md:text-5xl text-mos-navy font-semibold leading-tight">
+              Board Members
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {boardMembers.map((member, i) => (
+              <div
+                key={i}
+                className="group bg-white border border-mos-border/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500"
+              >
+                <div className="aspect-[4/5] relative overflow-hidden bg-mos-periwinkle/20">
+                  {member.imageUrl !== '/placeholder.svg' ? (
+                    <Image
+                      src={member.imageUrl}
+                      alt={member.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="font-[Newsreader,serif] text-7xl text-mos-navy/10 font-bold select-none">
+                        {member.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-[Newsreader,serif] text-xl text-mos-navy font-semibold leading-tight">
+                    {member.name}
+                  </h3>
+                  <p className="text-mos-accent text-xs font-[Manrope,sans-serif] font-bold mt-1.5 tracking-wider uppercase">
+                    {member.title}
+                  </p>
+                  <div className="w-8 h-px bg-mos-border mt-4 mb-4" />
+                  <p className="text-mos-text text-sm leading-relaxed font-[Manrope,sans-serif]">
+                    {member.bio}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Members & Researchers ── */}
+      <section className="py-24 md:py-28 px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-16">
+            <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
+              Our Community
+            </span>
+            <h2 className="font-[Newsreader,serif] text-4xl md:text-5xl text-mos-navy font-semibold leading-tight">
+              Members &amp; Researchers
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+            {otherMembers.map((member, i) => (
+              <div
+                key={i}
+                className="group"
+              >
+                <div className="flex items-start gap-5 mb-5">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden bg-mos-periwinkle/30 flex-shrink-0 ring-2 ring-mos-periwinkle/40 group-hover:ring-mos-navy/15 transition-all">
+                    {member.imageUrl !== '/placeholder.svg' ? (
+                      <Image
+                        src={member.imageUrl}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="font-[Newsreader,serif] text-xl text-mos-navy/20 font-bold">
+                          {member.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 pt-1">
+                    <h3 className="font-[Newsreader,serif] text-lg text-mos-navy font-semibold leading-snug">
+                      {member.name}
+                    </h3>
+                    {member.title && (
+                      <p className="text-mos-accent text-[11px] font-[Manrope,sans-serif] font-bold mt-1 tracking-wider uppercase">
+                        {member.title}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <p className="text-mos-text text-sm leading-relaxed font-[Manrope,sans-serif]">
+                  {member.bio}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
-} 
+}

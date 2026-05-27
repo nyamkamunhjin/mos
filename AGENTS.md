@@ -1,3 +1,25 @@
+## design
+
+This project uses an editorial/magazine aesthetic for the Mongolian Ornithological Society.
+
+**MOS Brand Palette** (defined in `app/globals.css` via `@theme`):
+- `mos-navy` (`#001f6e`) — primary title, buttons, hero overlays
+- `mos-blue` (`#1a368d`) — secondary accent, numbers
+- `mos-accent` (`#4a1800`) — burnt umber for section labels
+- `mos-surface` (`#faf8ff`) — warm off-white page background
+- `mos-section` (`#f4f2fb`) — alternate section background
+- `mos-periwinkle` (`#dce1ff`) — decorative blur orbs
+
+**Typography**: Newsreader (serif) for headings, Manrope (sans-serif) for body.
+
+**Patterns**:
+- `py-24 md:py-28` — generous vertical rhythm
+- Blur orbs (`rounded-full blur-3xl opacity-[0.05]`) for depth
+- Alternating `bg-mos-surface` / `bg-mos-section` between sections
+- `rounded-2xl` cards with `border-mos-border/30` and subtle shadows
+- `tracking-widest text-xs uppercase font-bold` for section eybrows
+- Fixed nav with `bg-black/20 backdrop-blur-sm` — mobile has a slide-in panel from the right with `w-80 max-w-[85vw]`
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

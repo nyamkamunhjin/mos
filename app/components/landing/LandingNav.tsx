@@ -1,49 +1,143 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { NavDropdown } from './NavDropdown';
 
+const navGroups = [
+  {
+    label: 'Introduction',
+    active: true,
+    items: [
+      { label: 'Overview', href: '/introduction/overview' },
+      { label: 'Message', href: '/introduction/message' },
+      { label: 'Members', href: '/introduction/members' },
+      { label: 'Education', href: '#' },
+      { label: 'Research', href: '#' },
+      { label: 'Events', href: '#' },
+    ],
+  },
+  {
+    label: 'Birds Mongolia',
+    items: [
+      { label: 'Online Guide', href: '#' },
+      { label: 'Ornis Mongolica', href: '#' },
+      { label: 'Birdlist', href: '#' },
+      { label: 'Rarity', href: '#' },
+      { label: 'Ringing Center', href: '#' },
+      { label: 'Publication', href: '#' },
+      { label: 'Reports', href: '#' },
+    ],
+  },
+  {
+    label: 'Expeditions',
+    items: [
+      { label: 'Gobi Desert', href: '#' },
+      { label: 'Taiga Forest', href: '#' },
+      { label: 'High Mountain', href: '#' },
+      { label: 'Taiga to Gobi', href: '#' },
+    ],
+  },
+];
+
 export function LandingNav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   return (
-    <nav className="fixed top-0 w-full flex justify-between items-center px-12 py-6 max-w-full z-50 transition-all duration-300 bg-black/20 backdrop-blur-sm">
-      <div className="text-2xl font-[Manrope,sans-serif] font-bold tracking-tight text-white drop-shadow-md">
-        Mongolian Ornithological Society
-      </div>
-      <div className="hidden md:flex items-center space-x-10">
-        <NavDropdown
-          label="Introduction"
-          active
-          items={['Overview', 'Message', 'Members', 'Education', 'Research', 'Events']}
-        />
-        <NavDropdown
-          label="Birds Mongolia"
-          items={['Online Guide', 'Ornis Mongolica', 'Birdlist', 'Rarity', 'Ringing Center', 'Publication', 'Reports']}
-        />
-        <NavDropdown
-          label="Expeditions"
-          items={['Gobi Desert', 'Taiga Forest', 'High Mountain', 'Taiga to Gobi']}
-        />
-        <Link
-          href="#"
-          className="text-white/90 hover:text-white text-sm font-semibold tracking-wide"
-        >
-          Bird Forum
+    <>
+      <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-4 sm:px-8 lg:px-12 py-4 sm:py-6 z-50 transition-all duration-300 bg-black/20 backdrop-blur-sm">
+        <Link href="/" className="text-lg sm:text-xl lg:text-2xl font-[Manrope,sans-serif] font-bold tracking-tight text-white drop-shadow-md leading-tight hover:opacity-90 transition-opacity">
+          Mongolian<br className="sm:hidden" /> Ornithological Society
         </Link>
-        <Link
-          href="#"
-          className="text-white/90 hover:text-white text-sm font-semibold tracking-wide"
-        >
-          Blog News
-        </Link>
-      </div>
-      <div className="flex items-center space-x-6">
-        <button className="text-white hover:text-[#001f6e] transition-colors">
-          <span className="material-symbols-outlined">search</span>
-        </button>
-        <button className="bg-[#1a368d] text-white px-8 py-2.5 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
-          Donate
-        </button>
-      </div>
-    </nav>
+
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center space-x-8 lg:space-x-10">
+          {navGroups.map((g) => (
+            <NavDropdown key={g.label} label={g.label} active={g.active} items={g.items} />
+          ))}
+          <Link href="#" className="text-white/90 hover:text-white text-sm font-semibold tracking-wide">
+            Bird Forum
+          </Link>
+          <Link href="#" className="text-white/90 hover:text-white text-sm font-semibold tracking-wide">
+            Blog News
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-3 sm:gap-6">
+          <button className="text-white hover:text-[#001f6e] transition-colors">
+            <span className="material-symbols-outlined text-2xl sm:text-base">search</span>
+          </button>
+          <button className="hidden sm:inline-block bg-[#1a368d] text-white px-6 lg:px-8 py-2 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+            Donate
+          </button>
+
+          {/* Hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden text-white p-1"
+            aria-label="Toggle menu"
+          >
+            <span className="material-symbols-outlined text-3xl">
+              {menuOpen ? 'close' : 'menu'}
+            </span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile panel */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
+          <div className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-[#001f6e] shadow-2xl overflow-y-auto">
+            <div className="pt-24 pb-8 px-6">
+              {navGroups.map((g) => (
+                <div key={g.label} className="mb-6">
+                  <span className="text-[#ffdbcd] text-xs font-bold tracking-widest uppercase font-[Manrope,sans-serif] block mb-3">
+                    {g.label}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    {g.items.map((item) => (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className="text-white/80 hover:text-white text-sm font-semibold font-[Manrope,sans-serif] transition-colors py-1"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <hr className="border-white/10 my-4" />
+              <Link
+                href="#"
+                className="block text-white/80 hover:text-white text-sm font-semibold py-2 font-[Manrope,sans-serif]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Bird Forum
+              </Link>
+              <Link
+                href="#"
+                className="block text-white/80 hover:text-white text-sm font-semibold py-2 font-[Manrope,sans-serif]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Blog News
+              </Link>
+              <div className="mt-6">
+                <button className="w-full bg-[#1a368d] text-white py-3 rounded-full font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+                  Donate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

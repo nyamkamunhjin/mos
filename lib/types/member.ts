@@ -7,7 +7,7 @@ export interface StrapiMember {
   title: string;
   role: string;
   bio: string;
-  group: 'leadership' | 'board' | 'other';
+  group: 'leadership' | 'board' | 'supporting' | 'other';
   sortOrder: number;
   image: StrapiMedia | null;
 }

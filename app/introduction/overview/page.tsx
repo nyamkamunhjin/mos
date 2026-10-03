@@ -83,7 +83,7 @@ export default function IntroductionPage() {
   return (
     <div className="bg-mos-surface">
       {/* ── Hero ── */}
-      <section className="relative h-[520px] md:h-[600px] overflow-hidden flex items-end">
+      <section id="overview" className="relative h-[520px] md:h-[600px] overflow-hidden flex items-end">
         <div className="absolute inset-0 z-0">
           <Image
             src="/test-landing/golden-eagle.jpg"
@@ -108,8 +108,37 @@ export default function IntroductionPage() {
         </div>
       </section>
 
+      {/* ── In-page section nav ── */}
+      <nav className="sticky top-[72px] z-40 bg-white/90 backdrop-blur-sm border-b border-mos-border/20">
+        <div className="max-w-7xl mx-auto px-8">
+          <ul className="flex items-center gap-1 overflow-x-auto py-3 text-xs font-[Manrope,sans-serif] font-semibold tracking-wide whitespace-nowrap">
+            {[
+              { label: 'Overview', href: '#overview' },
+              { label: 'About Society', href: '#about' },
+              { label: 'Vision (3S)', href: '#vision' },
+              { label: 'Mission', href: '#mission' },
+              { label: 'Aims', href: '#aims' },
+              { label: 'Values', href: '#values' },
+              { label: 'Activities', href: '#activities' },
+              { label: 'Partners', href: '/about/partners' },
+              { label: 'Message', href: '/introduction/message' },
+              { label: 'Members', href: '/introduction/members' },
+            ].map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="block rounded-full px-3 py-1.5 text-mos-navy/80 transition-colors hover:bg-mos-section hover:text-mos-navy"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
       {/* ── Vision ── */}
-      <section className="relative py-24 md:py-32 px-8 overflow-hidden">
+      <section id="vision" className="relative py-24 md:py-32 px-8 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-mos-periwinkle opacity-[0.07] rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-20">
@@ -143,8 +172,26 @@ export default function IntroductionPage() {
         </div>
       </section>
 
+      {/* ── Mission ── */}
+      <section id="mission" className="py-24 md:py-28 px-8 bg-mos-navy relative overflow-hidden">
+        <div className="absolute -top-24 -left-16 w-[420px] h-[420px] bg-white/5 rounded-full blur-3xl" />
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <span className="text-[#ffdbcd] font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
+            Why We Exist
+          </span>
+          <h2 className="font-[Newsreader,serif] text-4xl md:text-5xl text-white font-semibold mb-8 leading-tight">
+            Our Mission
+          </h2>
+          <p className="text-white/85 text-lg md:text-xl leading-relaxed font-[Newsreader,serif]">
+            To support science-oriented initiatives and actions for birds; save
+            birdlife and their habitats for the future; and solve the conflicts
+            between humans and birds.
+          </p>
+        </div>
+      </section>
+
       {/* ── Aims ── */}
-      <section className="py-24 md:py-28 px-8 bg-mos-section">
+      <section id="aims" className="py-24 md:py-28 px-8 bg-mos-section">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl mb-16">
             <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
@@ -170,7 +217,7 @@ export default function IntroductionPage() {
       </section>
 
       {/* ── Values ── */}
-      <section className="py-24 md:py-28 px-8">
+      <section id="values" className="py-24 md:py-28 px-8">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl mb-16">
             <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
@@ -202,7 +249,7 @@ export default function IntroductionPage() {
       </section>
 
       {/* ── About ── */}
-      <section className="py-24 md:py-28 px-8 bg-mos-section">
+      <section id="about" className="py-24 md:py-28 px-8 bg-mos-section">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-5 gap-12 items-start">
             <div className="md:col-span-3 space-y-6">
@@ -248,7 +295,7 @@ export default function IntroductionPage() {
       </section>
 
       {/* ── Main Activities ── */}
-      <section className="py-24 md:py-28 px-8">
+      <section id="activities" className="py-24 md:py-28 px-8">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl mb-16">
             <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
@@ -282,7 +329,7 @@ export default function IntroductionPage() {
       </section>
 
       {/* ── Collaboration Partners ── */}
-      <section className="py-24 md:py-28 px-8 bg-mos-section">
+      <section id="partners" className="py-24 md:py-28 px-8 bg-mos-section">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl mb-16">
             <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">

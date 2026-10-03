@@ -8,7 +8,10 @@ import type {
 } from './types/bird';
 import type { StrapiMember } from './types/member';
 
-const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
+// NEXT_PUBLIC_ is required for client components (getStrapiMediaUrl runs in the browser),
+// STRAPI_URL is the server-side value. Keep both pointed at the same backend.
+const STRAPI_URL =
+  process.env.NEXT_PUBLIC_STRAPI_URL || process.env.STRAPI_URL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 
 function buildUrl(path: string, params?: Record<string, string | string[]>): string {

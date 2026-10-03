@@ -5,41 +5,54 @@ import { useState, useEffect } from 'react';
 import { NavDropdown } from './NavDropdown';
 import { Button } from '@/components/ui/button';
 
-const navGroups = [
+type NavItem = { label: string; href: string };
+type NavGroup = { label: string; href?: string; items?: NavItem[]; active?: boolean };
+
+const navGroups: NavGroup[] = [
   {
-    label: 'Introduction',
+    label: 'About Us',
     active: true,
     items: [
       { label: 'Overview', href: '/introduction/overview' },
-      { label: 'Message', href: '/introduction/message' },
+      { label: "President's Message", href: '/introduction/message' },
       { label: 'Members', href: '/introduction/members' },
-      { label: 'Education', href: '#' },
-      { label: 'Research', href: '#' },
-      { label: 'Events', href: '#' },
+      { label: 'Partners', href: '/about/partners' },
     ],
   },
   {
-    label: 'Birds Mongolia',
+    label: 'Science & Conservation',
     items: [
-      { label: 'Online Guide', href: '/birds' },
-      { label: 'Ornis Mongolica', href: '#' },
-      { label: 'Birdlist', href: '#' },
-      { label: 'Rarity', href: '#' },
-      { label: 'Ringing Center', href: '#' },
-      { label: 'Publication', href: '#' },
-      { label: 'Reports', href: '#' },
+      { label: 'Research Projects', href: '/science/research' },
+      { label: 'Conservation Projects', href: '/science/conservation' },
+      { label: 'Project Map', href: '/science/map' },
+      { label: 'Education', href: '/education' },
+      { label: 'Events', href: '/events' },
     ],
   },
+    {
+      label: 'Birds Mongolia',
+      items: [
+        { label: 'Online Guide', href: '/birds' },
+        { label: 'Search Tool', href: '/search-tool' },
+        { label: 'Publications', href: '/publications' },
+        { label: 'Rarity Committee', href: '/rarity' },
+        { label: 'Ringing Center', href: '/ringing' },
+        { label: 'Birds Mongolia App', href: '/app' },
+      ],
+    },
   {
-    label: 'Expeditions',
-    items: [
-      { label: 'Gobi Desert', href: '#' },
-      { label: 'Taiga Forest', href: '#' },
-      { label: 'High Mountain', href: '#' },
-      { label: 'Taiga to Gobi', href: '#' },
-    ],
+    label: 'Tours & Expeditions',
+    href: '/tours',
   },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Support Us', href: '/support' },
+  { label: 'Become a Member', href: '/membership' },
+  { label: 'News', href: '/news' },
 ];
+
+function isGroup(g: NavGroup): g is NavGroup & { items: NavItem[] } {
+  return Array.isArray(g.items) && g.items.length > 0;
+}
 
 export function LandingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,20 +84,22 @@ export function LandingNav() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center space-x-8 lg:space-x-10">
-          {navGroups.map((g) => (
-            <NavDropdown key={g.label} label={g.label} active={g.active} items={g.items} dark={!scrolled} />
-          ))}
-          <span className={`text-sm font-semibold tracking-wide transition-colors cursor-not-allowed select-none ${
-            scrolled ? 'text-white/30' : 'text-mos-navy/30'
-          }`}>
-            Bird Forum
-          </span>
-          <span className={`text-sm font-semibold tracking-wide transition-colors cursor-not-allowed select-none ${
-            scrolled ? 'text-white/30' : 'text-mos-navy/30'
-          }`}>
-            Blog News
-          </span>
+        <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+          {navGroups.map((g) =>
+            isGroup(g) ? (
+              <NavDropdown key={g.label} label={g.label} active={g.active} items={g.items} dark={!scrolled} />
+            ) : (
+              <Link
+                key={g.label}
+                href={g.href ?? '#'}
+                className={`text-xs xl:text-sm font-semibold tracking-wide transition-colors whitespace-nowrap ${
+                  scrolled ? 'text-white/90 hover:text-white' : 'text-mos-navy/80 hover:text-mos-navy'
+                }`}
+              >
+                {g.label}
+              </Link>
+            ),
+          )}
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6">
@@ -100,7 +115,7 @@ export function LandingNav() {
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className={`md:hidden p-1 transition-colors cursor-pointer ${
+            className={`lg:hidden p-1 transition-colors cursor-pointer ${
               scrolled ? 'text-white' : 'text-mos-navy'
             }`}
             aria-label="Toggle menu"
@@ -114,45 +129,41 @@ export function LandingNav() {
 
       {/* Mobile panel */}
       {menuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden">
+        <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
           <div className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-[#001f6e] shadow-2xl overflow-y-auto">
             <div className="pt-24 pb-8 px-6">
               {navGroups.map((g) => (
                 <div key={g.label} className="mb-6">
-                  <span className="text-[#ffdbcd] text-xs font-bold tracking-widest uppercase font-[Manrope,sans-serif] block mb-3">
-                    {g.label}
-                  </span>
-                  <div className="flex flex-col gap-2">
-                    {g.items.map((item) =>
-                      item.href === '#' ? (
-                        <span
-                          key={item.label}
-                          className="text-white/30 text-sm font-semibold font-[Manrope,sans-serif] py-1 cursor-not-allowed select-none"
-                        >
-                          {item.label}
-                        </span>
-                      ) : (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          className="text-white/80 hover:text-white text-sm font-semibold font-[Manrope,sans-serif] transition-colors py-1"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ),
-                    )}
-                  </div>
+                  {isGroup(g) ? (
+                    <>
+                      <span className="text-[#ffdbcd] text-xs font-bold tracking-widest uppercase font-[Manrope,sans-serif] block mb-3">
+                        {g.label}
+                      </span>
+                      <div className="flex flex-col gap-2">
+                        {g.items.map((item) => (
+                          <Link
+                            key={item.label}
+                            href={item.href}
+                            className="text-white/80 hover:text-white text-sm font-semibold font-[Manrope,sans-serif] transition-colors py-1"
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <Link
+                      href={g.href ?? '#'}
+                      className="text-[#ffdbcd] hover:text-white text-xs font-bold tracking-widest uppercase font-[Manrope,sans-serif] block py-1 transition-colors"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {g.label}
+                    </Link>
+                  )}
                 </div>
               ))}
-              <hr className="border-white/10 my-4" />
-              <span className="block text-white/30 text-sm font-semibold py-2 font-[Manrope,sans-serif] cursor-not-allowed select-none">
-                Bird Forum
-              </span>
-              <span className="block text-white/30 text-sm font-semibold py-2 font-[Manrope,sans-serif] cursor-not-allowed select-none">
-                Blog News
-              </span>
               <div className="mt-6">
                 <Button href="/donate" variant="default" size="pill" className="w-full bg-[#1a368d] border-0 shadow-md" onClick={() => setMenuOpen(false)}>
                   Donate

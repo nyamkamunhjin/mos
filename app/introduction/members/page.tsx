@@ -14,6 +14,7 @@ export default async function MembersPage() {
 
   const leadership = members.filter((m) => m.group === 'leadership').sort((a, b) => a.sortOrder - b.sortOrder);
   const boardMembers = members.filter((m) => m.group === 'board').sort((a, b) => a.sortOrder - b.sortOrder);
+  const supportingMembers = members.filter((m) => m.group === 'supporting').sort((a, b) => a.sortOrder - b.sortOrder);
   const otherMembers = members.filter((m) => m.group === 'other').sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
@@ -155,6 +156,46 @@ export default async function MembersPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Supporting Members ── */}
+      {supportingMembers.length > 0 && (
+        <section className="py-24 md:py-28 px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="max-w-3xl mb-16">
+              <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
+                Friends of the Society
+              </span>
+              <h2 className="font-[Newsreader,serif] text-4xl md:text-5xl text-mos-navy font-semibold leading-tight">
+                Supporting Members
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {supportingMembers.map((member) => (
+                <div
+                  key={member.documentId}
+                  className="flex items-center gap-4 rounded-2xl border border-mos-border/30 bg-white px-6 py-4 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+                >
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-mos-periwinkle/40">
+                    <span className="font-[Newsreader,serif] text-lg font-bold text-mos-navy">
+                      {member.name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-[Newsreader,serif] text-base font-semibold text-mos-navy leading-snug">
+                      {member.name}
+                    </h3>
+                    {member.title && (
+                      <p className="text-mos-accent text-[10px] font-[Manrope,sans-serif] font-bold tracking-wider uppercase">
+                        {member.title}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Members & Researchers ── */}
       <section className="py-24 md:py-28 px-8">

@@ -9,7 +9,8 @@ export type ApplicationType =
     | 'supporter'
     | 'gift'
     | 'tour'
-    | 'volunteer';
+    | 'volunteer'
+    | 'contact';
 
 const fieldClass =
     'w-full rounded-xl border border-mos-border/40 bg-mos-surface px-4 py-2.5 text-sm font-[Manrope,sans-serif] text-mos-text outline-none focus:border-mos-navy/50 focus:ring-2 focus:ring-mos-navy/10';

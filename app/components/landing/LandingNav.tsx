@@ -80,7 +80,7 @@ export function LandingNav() {
         <Link href="/" className={`text-lg sm:text-xl lg:text-2xl font-[Manrope,sans-serif] font-bold tracking-tight leading-tight hover:opacity-90 transition-opacity ${
           scrolled ? 'text-white drop-shadow-md' : 'text-mos-navy'
         }`}>
-          Mongolian<br className="sm:hidden" /> Ornithological Society
+          MOS
         </Link>
 
         {/* Desktop nav */}

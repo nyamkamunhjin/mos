@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 
-const ALLOWED_TYPES = ['individual', 'citizen-science', 'supporter', 'gift', 'tour', 'volunteer'];
+const ALLOWED_TYPES = ['individual', 'citizen-science', 'supporter', 'gift', 'tour', 'volunteer', 'contact'];
 
 export async function POST(request: Request) {
     if (!STRAPI_TOKEN) {

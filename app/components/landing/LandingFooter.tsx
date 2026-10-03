@@ -126,9 +126,13 @@ export function LandingFooter() {
                         conservation of avian heritage.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-                        {['Privacy Policy', 'Terms of Use', 'Contact Us'].map((item) => (
-                            <Link key={item} href="#" className="text-xs uppercase tracking-widest text-[#757683] transition-colors hover:text-[#001f6e]">
-                                {item}
+                        {[
+                            { label: 'Privacy Policy', href: '#' },
+                            { label: 'Terms of Use', href: '#' },
+                            { label: 'Contact Us', href: '/contact' },
+                        ].map((item) => (
+                            <Link key={item.label} href={item.href} className="text-xs uppercase tracking-widest text-[#757683] transition-colors hover:text-[#001f6e]">
+                                {item.label}
                             </Link>
                         ))}
                     </div>

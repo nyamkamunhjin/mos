@@ -15,6 +15,19 @@ interface BirdLocation {
   description?: string;
 }
 
+// Tile source is configurable so a keyed provider (Mapbox, MapTiler, CARTO…)
+// can be used in production. Default stays the keyless CARTO basemap.
+// Example keyed URLs (set via NEXT_PUBLIC_MAP_TILE_URL):
+//   MapTiler: https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=YOUR_KEY
+//   Mapbox:   https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=YOUR_TOKEN
+const MAP_TILE_URL =
+  process.env.NEXT_PUBLIC_MAP_TILE_URL ||
+  'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+const MAP_TILE_ATTRIBUTION =
+  process.env.NEXT_PUBLIC_MAP_ATTRIBUTION ||
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>';
+const MAP_TILE_SUBDOMAINS = MAP_TILE_URL.includes('{s}') ? 'abcd' : undefined;
+
 const defaultIcon = L.divIcon({
   className: 'bg-transparent',
   html: '<div style="background:#001f6e;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);font-size:16px;">🐦</div>',
@@ -54,8 +67,9 @@ export default function BirdMap({
         className="w-full h-full"
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          attribution={MAP_TILE_ATTRIBUTION}
+          url={MAP_TILE_URL}
+          subdomains={MAP_TILE_SUBDOMAINS}
         />
         {locations.map((loc, i) => (
           <Marker key={i} position={[loc.lat, loc.lng]} icon={defaultIcon}>

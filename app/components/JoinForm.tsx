@@ -17,14 +17,14 @@ export function JoinForm() {
         <div className="grid lg:grid-cols-5 gap-10">
             <div className="lg:col-span-2">
                 <span className="text-mos-accent font-[Manrope,sans-serif] tracking-widest text-xs uppercase font-bold mb-4 block">
-                    Apply Now
+                    Get in Touch
                 </span>
                 <h2 className="font-[Newsreader,serif] text-3xl md:text-4xl text-mos-navy font-semibold leading-tight">
                     Join the Society
                 </h2>
                 <p className="mt-4 text-mos-muted font-[Manrope,sans-serif] leading-relaxed">
                     Choose the membership that suits you and we&apos;ll be in touch to
-                    complete your registration and payment.
+                    help you get started.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
                     {options.map((o) => (
@@ -46,10 +46,10 @@ export function JoinForm() {
             <div className="lg:col-span-3">
                 <ApplicationForm
                     type={type}
-                    subject="Membership application"
+                    subject="Membership enquiry"
                     messageLabel="Anything we should know?"
                     messagePlaceholder="Tell us about your birding interests, experience or how you heard about us…"
-                    submitLabel="Send application"
+                    submitLabel="Send enquiry"
                 />
             </div>
         </div>
